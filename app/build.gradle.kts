@@ -60,14 +60,6 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.11.0")
     kapt("com.github.bumptech.glide:compiler:4.11.0")
 
-    // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:28.2.0"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.firebase:firebase-messaging-ktx")
-    implementation("com.google.firebase:firebase-database-ktx")
-    implementation("com.google.firebase:firebase-functions-ktx")
-
     // koin
     implementation("io.insert-koin:koin-android:2.2.3")
     implementation("io.insert-koin:koin-androidx-viewmodel:2.2.3")
