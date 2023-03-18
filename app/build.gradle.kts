@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.kakao"
-        minSdkVersion(19)
+        minSdkVersion(24)
         targetSdkVersion(33)
         versionCode = 1
         versionName = "1.0"

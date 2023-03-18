@@ -9,7 +9,6 @@ import org.koin.core.logger.Level
 
 open class Application: Application() {
 
-
     override fun onCreate() {
         super.onCreate()
 
@@ -23,7 +22,6 @@ open class Application: Application() {
             androidLogger(Level.ERROR)
             androidContext(this@Application)
             modules(listOf(
-                preferencesModule,
                 networkModule,
                 repositoryModule,
                 viewModelModule,
@@ -31,12 +29,5 @@ open class Application: Application() {
         }
 
     }
-
-//    open fun configureDi() = startKoin {
-//        androidLogger(Level.ERROR)
-//        androidContext(this@Application)
-//        modules(listOf(preferencesModule, networkModule ,repositoryModule ,viewModelModule))
-//    }
-
 }
 

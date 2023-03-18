@@ -11,14 +11,4 @@
         android:icon="@drawable/ic_youtube"
         android:title="@string/secondTitle" />
 
-    <item
-        android:id="@+id/thirdTabFragment"
-        android:icon="@drawable/ic_home"
-        android:title="@string/thirdTitle" />
-
-    <item
-        android:id="@+id/forthTabFragment"
-        android:icon="@drawable/ic_home"
-        android:title="@string/forthTitle" />
-
 </menu>
