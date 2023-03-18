@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/firstTabFragment"
+        android:icon="@drawable/ic_program"
+        android:title="@string/firstTitle" />
+
+    <item
+        android:id="@+id/secondTabFragment"
+        android:icon="@drawable/ic_youtube"
+        android:title="@string/secondTitle" />
+
+    <item
+        android:id="@+id/thirdTabFragment"
+        android:icon="@drawable/ic_home"
+        android:title="@string/thirdTitle" />
+
+    <item
+        android:id="@+id/forthTabFragment"
+        android:icon="@drawable/ic_home"
+        android:title="@string/forthTitle" />
+
+</menu>
