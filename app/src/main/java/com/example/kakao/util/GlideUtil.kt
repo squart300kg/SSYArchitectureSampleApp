@@ -7,7 +7,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.kakao.R
-import com.smarteist.autoimageslider.IndicatorView.utils.DensityUtils
 
 object GlideUtil {
 
@@ -18,7 +17,7 @@ object GlideUtil {
                 RequestOptions.bitmapTransform(
                     MultiTransformation(
                         CenterCrop(),
-                        RoundedCorners(DensityUtils.dpToPx(6))
+//                        RoundedCorners(111)
                     )
                 )
             )

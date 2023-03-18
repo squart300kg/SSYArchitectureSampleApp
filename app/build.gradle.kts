@@ -60,9 +60,6 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.11.0")
     kapt("com.github.bumptech.glide:compiler:4.11.0")
 
-    // GLIDE SLIDER
-    implementation("com.github.smarteist:autoimageslider:1.3.2-appcompat")
-
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:28.2.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
