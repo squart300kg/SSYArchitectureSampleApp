@@ -4,11 +4,11 @@
     <item
         android:id="@+id/firstTabFragment"
         android:icon="@drawable/ic_program"
-        android:title="@string/firstTitle" />
+        android:title="@string/searchResult" />
 
     <item
         android:id="@+id/secondTabFragment"
         android:icon="@drawable/ic_youtube"
-        android:title="@string/secondTitle" />
+        android:title="@string/myLocker" />
 
 </menu>
