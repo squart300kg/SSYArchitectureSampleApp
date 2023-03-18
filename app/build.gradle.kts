@@ -46,7 +46,7 @@ android {
 dependencies {
 
     // secure sharedPreference
-    implementation("com.scottyab:secure-preferences-lib:0.1.7")
+//    implementation("com.scottyab:secure-preferences-lib:0.1.7")
 
     // NETWORK
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
