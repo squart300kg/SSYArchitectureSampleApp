@@ -1,9 +1,11 @@
 package com.example.kakao.di
 
-import com.example.kakao.repository.ExampleRepository
-import com.example.kakao.repository.YoutubeRepositoryImp
-import org.koin.dsl.module
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
-val repositoryModule = module {
-    factory <ExampleRepository> { YoutubeRepositoryImp(get()) }
+@InstallIn(SingletonComponent::class)
+@Module
+object RepositoryModule {
+
 }

@@ -7,11 +7,12 @@ import com.example.kakao.R
 import com.example.kakao.base.BaseActivity
 import com.example.kakao.databinding.ActivityMainBinding
 import com.example.kakao.ext.init
-import org.koin.android.ext.android.inject
+import com.example.kakao.ui.firstTab.FirstTabFragment
+import com.example.kakao.ui.secondTab.SecondTabFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
-
-    private val idToFragmentMap: SparseArray<Fragment> by inject()
+@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,10 @@ class MainActivity: BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             bottomNavigation.init(
                 fragmentManager = supportFragmentManager,
                 containerId = mainNavFragment.id,
-                idToFragmentMap = idToFragmentMap)
+                idToFragmentMap = SparseArray<Fragment>().apply {
+                    append(R.id.firstTabFragment, FirstTabFragment())
+                    append(R.id.secondTabFragment, SecondTabFragment())
+                })
         }
     }
 }

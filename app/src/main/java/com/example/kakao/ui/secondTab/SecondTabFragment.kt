@@ -7,7 +7,9 @@ import androidx.fragment.app.viewModels
 import com.example.kakao.R
 import com.example.kakao.base.BaseFragment
 import com.example.kakao.databinding.SecondTabFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SecondTabFragment : BaseFragment<SecondTabFragmentBinding>(R.layout.second_tab_fragment) {
 
     private val secondTabViewModel: SecondTabViewModel by viewModels()

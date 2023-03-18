@@ -64,10 +64,6 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
-    // koin
-    implementation("io.insert-koin:koin-android:2.2.3")
-    implementation("io.insert-koin:koin-androidx-viewmodel:2.2.3")
-
     // multidex
     implementation("androidx.multidex:multidex:2.0.1")
 
