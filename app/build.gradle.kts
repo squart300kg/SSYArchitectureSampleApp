@@ -1,7 +1,8 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+    kotlin("kapt")
 }
 
 android {
@@ -40,13 +41,12 @@ android {
         viewBinding = true
         dataBinding = true
     }
-
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
-
-    // secure sharedPreference
-//    implementation("com.scottyab:secure-preferences-lib:0.1.7")
 
     // NETWORK
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -59,6 +59,10 @@ dependencies {
     // GLIDE
     implementation("com.github.bumptech.glide:glide:4.11.0")
     kapt("com.github.bumptech.glide:compiler:4.11.0")
+
+    // dagger hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
     // koin
     implementation("io.insert-koin:koin-android:2.2.3")
