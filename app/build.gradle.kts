@@ -24,6 +24,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "KakaoRestApiKey", "${properties["kakao_rest_api_key"]}")
+        buildConfigField("String", "KakaoApiUrl", "\"https://dapi.kakao.com/v2/\"")
     }
 
     buildTypes {
