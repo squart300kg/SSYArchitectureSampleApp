@@ -1,11 +1,11 @@
-package com.example.kakao.ext
+package com.example.kakao.uilayer.ext
 
 import android.util.SparseArray
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.kakao.R
-import com.example.kakao.ui.firstTab.SearchResultFragment
-import com.example.kakao.ui.secondTab.MyLockerFragment
+import com.example.kakao.uilayer.firstTab.SearchResultFragment
+import com.example.kakao.uilayer.secondTab.MyLockerFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 fun BottomNavigationView.init(

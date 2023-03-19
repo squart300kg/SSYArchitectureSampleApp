@@ -1,14 +1,10 @@
-package com.example.kakao.ui
+package com.example.kakao.uilayer
 
 import android.os.Bundle
-import android.util.SparseArray
-import androidx.fragment.app.Fragment
 import com.example.kakao.R
-import com.example.kakao.base.BaseActivity
+import com.example.kakao.uilayer.base.BaseActivity
 import com.example.kakao.databinding.ActivityMainBinding
-import com.example.kakao.ext.init
-import com.example.kakao.ui.firstTab.SearchResultFragment
-import com.example.kakao.ui.secondTab.MyLockerFragment
+import com.example.kakao.uilayer.ext.init
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

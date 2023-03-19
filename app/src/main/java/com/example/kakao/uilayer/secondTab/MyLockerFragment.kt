@@ -1,11 +1,11 @@
-package com.example.kakao.ui.secondTab
+package com.example.kakao.uilayer.secondTab
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.example.kakao.R
-import com.example.kakao.base.BaseFragment
+import com.example.kakao.uilayer.base.BaseFragment
 import com.example.kakao.databinding.SecondTabFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,4 +1,4 @@
-package com.example.kakao.ui.secondTab
+package com.example.kakao.uilayer.secondTab
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

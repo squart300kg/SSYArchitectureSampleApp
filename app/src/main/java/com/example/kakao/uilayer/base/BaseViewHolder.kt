@@ -1,4 +1,4 @@
-package com.example.kakao.base
+package com.example.kakao.uilayer.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
