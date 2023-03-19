@@ -10,7 +10,7 @@ interface KakaoApi {
     @GET("search/vclip")
     suspend fun fetchVideos(@Query("query") keyWord: String): VideoResponseModel
 
-    @GET("search/vclip")
+    @GET("search/image")
     suspend fun fetchImages(@Query("query") keyWord: String): ImageResponseModel
 
 }
