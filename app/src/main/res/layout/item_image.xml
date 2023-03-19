@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="imageItem"
+            type="com.example.kakao.uilayer.model.ItemImageUiState" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout 
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <ImageView
+            android:id="@+id/ivThumbnail"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/itemImageHeight"
+            app:layout_constraintHorizontal_weight="2.5"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tvDate"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/itemImageHeight"
+            android:gravity="center_vertical"
+            android:padding="@dimen/searchPadding"
+            app:layout_constraintHorizontal_weight="5"
+            app:layout_constraintEnd_toStartOf="@id/ivFavorite"
+            app:layout_constraintTop_toTopOf="@id/ivThumbnail"
+            app:layout_constraintStart_toEndOf="@id/ivThumbnail"
+            tools:text="textDate" />
+
+        <ImageView
+            android:id="@+id/ivFavorite"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/itemImageHeight"
+            app:layout_constraintHorizontal_weight="2.5"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="@id/ivThumbnail"
+            app:layout_constraintBottom_toBottomOf="@id/ivThumbnail"
+            app:layout_constraintStart_toEndOf="@id/tvDate"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

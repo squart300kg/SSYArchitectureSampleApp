@@ -14,7 +14,7 @@ open class BaseViewHolder<T, B: ViewDataBinding>(
 ): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)) {
     private val itemBinding: B? = DataBindingUtil.bind(itemView)
 
-    protected fun bindItem(item: T) {
+    fun bindItem(item: T) {
         itemBinding?.setVariable(itemId, item)
         itemBinding?.executePendingBindings()
     }

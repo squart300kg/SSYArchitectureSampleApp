@@ -1,4 +1,4 @@
-package com.example.kakao.uilayer.secondTab
+package com.example.kakao.uilayer.ui.locker
 
 import android.os.Bundle
 import android.util.Log
