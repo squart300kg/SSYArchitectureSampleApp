@@ -1,9 +1,14 @@
+import org.jetbrains.kotlin.konan.properties.Properties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("com.google.dagger.hilt.android")
     kotlin("kapt")
 }
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     compileSdkVersion(33)
@@ -18,6 +23,7 @@ android {
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "KakaoRestApiKey", "${properties["kakao_rest_api_key"]}")
     }
 
     buildTypes {
