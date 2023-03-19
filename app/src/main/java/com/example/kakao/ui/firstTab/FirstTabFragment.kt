@@ -18,6 +18,10 @@ class FirstTabFragment : BaseFragment<FirstTabFragmentBinding>(R.layout.first_ta
         super.onViewCreated(view, savedInstanceState)
         Log.i("bottomId", "First Loaded")
 
+        binding {
+
+        }
+
     }
 
 }

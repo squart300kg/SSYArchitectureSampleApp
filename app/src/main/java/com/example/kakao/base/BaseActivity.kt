@@ -2,15 +2,16 @@ package com.example.kakao.base
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
 open class BaseActivity<T: ViewDataBinding>(
-    private val layoutRes: Int
+    @LayoutRes private val layoutRes: Int
 ): AppCompatActivity() {
 
-    protected lateinit var dataBinding: T
+    private lateinit var dataBinding: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +23,4 @@ open class BaseActivity<T: ViewDataBinding>(
         dataBinding.run(action)
     }
 
-    protected fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-    }
 }

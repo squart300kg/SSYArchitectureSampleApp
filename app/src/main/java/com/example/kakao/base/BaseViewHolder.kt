@@ -2,6 +2,7 @@ package com.example.kakao.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -9,18 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 open class BaseViewHolder<T, B: ViewDataBinding>(
     private val itemId: Int,
     parent: ViewGroup,
-    layoutRes: Int,
-    action:B.() -> Unit = {}
+    @LayoutRes layoutRes: Int,
 ): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)) {
-    protected val itemBinding: B = DataBindingUtil.bind(itemView)!!
+    private val itemBinding: B? = DataBindingUtil.bind(itemView)
 
-    init {
+    protected fun bindItem(item: T) {
+        itemBinding?.setVariable(itemId, item)
+        itemBinding?.executePendingBindings()
+    }
+
+    protected fun binding(action: B?.() -> Unit) {
         itemBinding.run(action)
     }
 
-    fun bindItem(item: T) {
-        itemBinding.setVariable(itemId, item)
-        itemBinding.executePendingBindings()
-    }
 
 }
