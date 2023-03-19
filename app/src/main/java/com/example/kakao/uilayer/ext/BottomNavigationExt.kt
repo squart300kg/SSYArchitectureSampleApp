@@ -18,40 +18,19 @@ fun BottomNavigationView.init(
         append(R.id.myLockerFragment, MyLockerFragment())
     }
 
-    fragmentManager.beginTransaction(
-        containerId = containerId,
-        targetId = R.id.searchResultFragment,
-        targetFragment = idToFragmentMap[R.id.searchResultFragment]
-    )
+    fragmentManager.beginTransaction()
+        .replace(containerId, idToFragmentMap[R.id.searchResultFragment])
+        .commit()
 
     setOnItemSelectedListener { selectItem ->
         if (selectItem.itemId == selectedItemId) {
             return@setOnItemSelectedListener true
         }
 
-        fragmentManager.beginTransaction(
-            containerId = containerId,
-            targetId = selectItem.itemId,
-            targetFragment = idToFragmentMap[selectItem.itemId]
-        )
+        fragmentManager.beginTransaction()
+            .replace(containerId, idToFragmentMap[selectItem.itemId])
+            .commit()
 
         true
     }
-
-    fragmentManager.addOnBackStackChangedListener {
-        val currentVisibleFragment = fragmentManager.getBackStackEntryAt(fragmentManager.backStackEntryCount.minus(1)).name?.toInt() ?: R.id.searchResultFragment
-        menu.findItem(currentVisibleFragment).isChecked = true
-    }
-}
-
-private fun FragmentManager.beginTransaction(
-    containerId: Int,
-    targetId: Int,
-    targetFragment: Fragment
-) {
-    beginTransaction()
-        .replace(containerId, targetFragment, "$targetId")
-        .addToBackStack("$targetId")
-        .setReorderingAllowed(true)
-        .commit()
 }
