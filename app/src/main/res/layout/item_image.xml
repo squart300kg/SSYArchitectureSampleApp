@@ -34,7 +34,7 @@
             app:layout_constraintStart_toEndOf="@id/ivThumbnail"
             tools:text="textDate" />
 
-        <ImageView
+        <CheckBox
             android:id="@+id/ivFavorite"
             android:layout_width="0dp"
             android:layout_height="@dimen/itemImageHeight"

@@ -9,6 +9,7 @@
             name="searchVm"
             type="com.example.kakao.uilayer.ui.search.SearchResultViewModel" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,10 +19,24 @@
 
         <EditText
             android:id="@+id/etSearch"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/searchHeight"
             android:padding="@dimen/searchPadding"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_weight="7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnSearch"/>
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/searchHeight"
+            android:text="@string/search"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/etSearch"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvSearchResultRv"
