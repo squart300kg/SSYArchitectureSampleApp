@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/firstTabFragment"
+        android:id="@+id/searchResultFragment"
         android:icon="@drawable/ic_program"
         android:title="@string/searchResult" />
 
     <item
-        android:id="@+id/secondTabFragment"
+        android:id="@+id/myLockerFragment"
         android:icon="@drawable/ic_youtube"
         android:title="@string/myLocker" />
 

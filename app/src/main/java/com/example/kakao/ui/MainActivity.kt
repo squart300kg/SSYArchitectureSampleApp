@@ -7,8 +7,8 @@ import com.example.kakao.R
 import com.example.kakao.base.BaseActivity
 import com.example.kakao.databinding.ActivityMainBinding
 import com.example.kakao.ext.init
-import com.example.kakao.ui.firstTab.FirstTabFragment
-import com.example.kakao.ui.secondTab.SecondTabFragment
+import com.example.kakao.ui.firstTab.SearchResultFragment
+import com.example.kakao.ui.secondTab.MyLockerFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,14 +17,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        dataBinding.run {
+        binding {
             bottomNavigation.init(
                 fragmentManager = supportFragmentManager,
-                containerId = mainNavFragment.id,
-                idToFragmentMap = SparseArray<Fragment>().apply {
-                    append(R.id.firstTabFragment, FirstTabFragment())
-                    append(R.id.secondTabFragment, SecondTabFragment())
-                })
+                containerId = mainNavFragment.id)
         }
     }
 }

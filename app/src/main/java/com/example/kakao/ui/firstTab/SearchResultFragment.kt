@@ -1,4 +1,4 @@
-package com.example.kakao.ui.secondTab
+package com.example.kakao.ui.firstTab
 
 import android.os.Bundle
 import android.util.Log
@@ -6,17 +6,21 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.example.kakao.R
 import com.example.kakao.base.BaseFragment
-import com.example.kakao.databinding.SecondTabFragmentBinding
+import com.example.kakao.databinding.SearchResultFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SecondTabFragment : BaseFragment<SecondTabFragmentBinding>(R.layout.second_tab_fragment) {
+class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.search_result_fragment) {
 
-    private val secondTabViewModel: SecondTabViewModel by viewModels()
+    private val searchResultViewModel: SearchResultViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.i("bottomId", "Second Loaded")
+        Log.i("bottomId", "First Loaded")
+
+        binding {
+
+        }
 
     }
 
