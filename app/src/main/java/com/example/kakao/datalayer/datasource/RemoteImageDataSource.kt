@@ -1,6 +1,5 @@
 package com.example.kakao.datalayer.datasource
 
-import android.util.Log
 import com.example.kakao.datalayer.api.KakaoApi
 import com.example.kakao.uilayer.model.ItemImageUiState
 import com.example.kakao.util.extractDate
@@ -18,9 +17,6 @@ class RemoteImageDataSource @Inject constructor(
         return flow {
             val itemImageUiStatesForImageApi = mutableListOf<ItemImageUiState>().apply {
                 kakaoApi.fetchImages(keyWord = keyWord).documents.forEach { image ->
-//                    Log.i("timeMethodTest", "basic : ${image.dateTime}")
-//                    Log.i("timeMethodTest", "method 1 : ${image.dateTime.extractDate()}")
-//                    Log.i("timeMethodTest", "method 2 : ${image.dateTime.extractTime()}")
                     add(
                         ItemImageUiState(
                             thumbnailUrl = image.thumbnailUrl,
@@ -33,9 +29,6 @@ class RemoteImageDataSource @Inject constructor(
             }
             val itemImageUiStatesForVideoApi = mutableListOf<ItemImageUiState>().apply {
                 kakaoApi.fetchVideos(keyWord = keyWord).documents.forEach { image ->
-                    Log.i("timeMethodTest", "basic : ${image.dateTime}")
-                    Log.i("timeMethodTest", "method 1 : ${image.dateTime.extractDate()}")
-                    Log.i("timeMethodTest", "method 2 : ${image.dateTime.extractTime()}")
                     add(
                         ItemImageUiState(
                             thumbnailUrl = image.thumbnail,
@@ -46,12 +39,10 @@ class RemoteImageDataSource @Inject constructor(
                     )
                 }
             }
-            Log.i("timeMethodTest", "imageApi"+itemImageUiStatesForImageApi.toString())
-            Log.i("timeMethodTest", "videoApi"+itemImageUiStatesForVideoApi.toString())
 
             val itemImageUiStates = (itemImageUiStatesForImageApi + itemImageUiStatesForVideoApi)
                 .distinct()
-                .sortedWith(compareBy(ItemImageUiState::date, ItemImageUiState::time))
+                .sortedWith(compareByDescending(ItemImageUiState::date).thenByDescending(ItemImageUiState::time))
             emit(itemImageUiStates)
         }
     }
