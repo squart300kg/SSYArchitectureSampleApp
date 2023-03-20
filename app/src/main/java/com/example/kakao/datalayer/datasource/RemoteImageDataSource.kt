@@ -10,6 +10,7 @@ class RemoteImageDataSource @Inject constructor(
     private val kakaoApi: KakaoApi,
 ) {
 
+    // TODO: 서버 timezone표시방법 고민!!
     fun fetchImages(keyWord: String): Flow<List<ItemImageUiState>> {
         return flow {
             val itemImageUiStatesForImageApi = mutableListOf<ItemImageUiState>().apply {
@@ -17,7 +18,7 @@ class RemoteImageDataSource @Inject constructor(
                     add(
                         ItemImageUiState(
                             thumbnailUrl = image.thumbnailUrl,
-                            date = image.dateTime,
+                            dateTime = image.dateTime,
                             isFavorite = false
                         )
                     )
@@ -28,15 +29,16 @@ class RemoteImageDataSource @Inject constructor(
                     add(
                         ItemImageUiState(
                             thumbnailUrl = image.thumbnail,
-                            date = image.dateTime,
+                            dateTime = image.dateTime,
                             isFavorite = false
                         )
                     )
                 }
             }
-            val itemImageUiStates = (itemImageUiStatesForImageApi + itemImageUiStatesForVideoApi).distinct()
+            val itemImageUiStates = (itemImageUiStatesForImageApi + itemImageUiStatesForVideoApi)
+                .distinct()
+                .sortedByDescending { it.dateTime }
             emit(itemImageUiStates)
         }
-
     }
 }

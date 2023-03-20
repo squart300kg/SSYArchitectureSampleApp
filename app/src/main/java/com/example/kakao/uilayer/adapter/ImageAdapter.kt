@@ -18,7 +18,6 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
         parent: ViewGroup,
         viewType: Int
     ): ImageViewHolder {
-        Log.i("imageTest", "in onCreateVH")
         return ImageViewHolder(
             BR.imageItem,
             parent,
@@ -27,14 +26,12 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        Log.i("imageTest", "in bind : ${items[position]}")
         holder.bindItem(items[position])
     }
 
     override fun getItemCount() = items.size
 
     fun submitList(list: List<ItemImageUiState>) {
-        Log.i("imageTest", "in adapter : $list")
         items.clear()
         items.addAll(list)
         notifyDataSetChanged()

@@ -38,7 +38,6 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.searchResultUiState.collect { searchResultUiState ->
-                    Log.i("imageTest", "in frag : $searchResultUiState")
                     imageAdapter.submitList(searchResultUiState.items)
                 }
             }
