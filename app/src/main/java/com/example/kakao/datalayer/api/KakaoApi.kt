@@ -7,6 +7,7 @@ import retrofit2.http.Query
 
 interface KakaoApi {
 
+    // TODO: PATH로 줄이기
     @GET("search/image")
     suspend fun fetchImages(@Query("query") keyWord: String): ImageResponseModel
 

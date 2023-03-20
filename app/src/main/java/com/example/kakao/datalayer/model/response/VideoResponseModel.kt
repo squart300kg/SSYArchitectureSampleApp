@@ -21,7 +21,7 @@ data class VideoResponseModel(
         @SerializedName("url")
         val url: String,
         @Expose
-        @SerializedName("dateTime")
+        @SerializedName("datetime")
         val dateTime: String,
         @Expose
         @SerializedName("playTime")

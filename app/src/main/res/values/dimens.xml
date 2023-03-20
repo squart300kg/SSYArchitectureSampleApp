@@ -3,5 +3,6 @@
     <dimen name="searchHeight">50dp</dimen>
     <dimen name="contentHorizontalPadding">20dp</dimen>
     <dimen name="searchPadding">10dp</dimen>
-    <dimen name="itemImageHeight">50dp</dimen>
+    <dimen name="itemImageHeight">100dp</dimen>
+    <dimen name="itemDateTimeHeight">50dp</dimen>
 </resources>
