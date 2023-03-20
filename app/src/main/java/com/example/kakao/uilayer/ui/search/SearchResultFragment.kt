@@ -25,8 +25,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
             Log.i("apiKey", BuildConfig.KakaoRestApiKey)
 
             btnSearch.setOnClickListener {
-                viewModel.search("설현")
-//                viewModel.search("${etSearch.text}")
+                viewModel.search("${etSearch.text}")
             }
 
             rvSearchResultRv.apply {

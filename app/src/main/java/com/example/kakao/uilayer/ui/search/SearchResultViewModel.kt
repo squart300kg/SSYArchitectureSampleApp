@@ -29,7 +29,7 @@ class SearchResultViewModel @Inject constructor(
                 .flowOn(ioDispatcher)
                 .catch {  }
                 .collect {
-
+                    Log.i("imageApiTest", "result : $it")
                 }
 
 

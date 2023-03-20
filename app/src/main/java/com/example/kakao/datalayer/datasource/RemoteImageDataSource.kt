@@ -1,30 +1,42 @@
 package com.example.kakao.datalayer.datasource
 
-import android.util.Log
 import com.example.kakao.datalayer.api.KakaoApi
-import com.example.kakao.datalayer.model.SortType
-import com.example.kakao.datalayer.model.request.KakaoRequestModel
-import com.example.kakao.di.IoDispatcher
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.combine
+import com.example.kakao.uilayer.model.ItemImageUiState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class RemoteImageDataSource @Inject constructor(
     private val kakaoApi: KakaoApi,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
 
-    suspend fun fetchImages(keyWord: String) {
-        withContext(ioDispatcher) {
-            val images = async {
-                kakaoApi.fetchImages(keyWord = keyWord)
+    fun fetchImages(keyWord: String): Flow<List<ItemImageUiState>> {
+        return flow {
+            val itemImageUiStatesForImageApi = mutableListOf<ItemImageUiState>().apply {
+                kakaoApi.fetchImages(keyWord = keyWord).documents.forEach { image ->
+                    add(
+                        ItemImageUiState(
+                            thumbnail = image.thumbnailUrl,
+                            date = image.dateTime,
+                            isFavorite = false
+                        )
+                    )
+                }
             }
-            val videos = async {
-                kakaoApi.fetchVideos(keyWord = keyWord)
+            val itemImageUiStatesForVideoApi = mutableListOf<ItemImageUiState>().apply {
+                kakaoApi.fetchVideos(keyWord = keyWord).documents.forEach { image ->
+                    add(
+                        ItemImageUiState(
+                            thumbnail = image.thumbnail,
+                            date = image.dateTime,
+                            isFavorite = false
+                        )
+                    )
+                }
             }
-
-            Log.i("apiTest", "iamges : " + images.toString())
-            Log.i("apiTest", "vidoes : " + videos.toString())
+            val itemImageUiStates = (itemImageUiStatesForImageApi + itemImageUiStatesForVideoApi).distinct()
+            emit(itemImageUiStates)
         }
+
     }
 }

@@ -7,10 +7,10 @@ import retrofit2.http.Query
 
 interface KakaoApi {
 
-    @GET("search/vclip")
-    suspend fun fetchVideos(@Query("query") keyWord: String): VideoResponseModel
-
     @GET("search/image")
     suspend fun fetchImages(@Query("query") keyWord: String): ImageResponseModel
+
+    @GET("search/vclip")
+    suspend fun fetchVideos(@Query("query") keyWord: String): VideoResponseModel
 
 }

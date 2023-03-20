@@ -10,7 +10,7 @@ data class VideoResponseModel(
     val meta: Meta,
     @Expose
     @SerializedName("documents")
-    val documents: Documents
+    val documents: List<Documents>
 
 ) {
     data class Documents(

@@ -10,7 +10,7 @@ data class ImageResponseModel(
     val meta: Meta,
     @Expose
     @SerializedName("documents")
-    val documents: Documents
+    val documents: List<Documents>
 
 ) {
 
@@ -38,6 +38,6 @@ data class ImageResponseModel(
         val docUrl: String,
         @Expose
         @SerializedName("datetime")
-        val datetime: String
+        val dateTime: String
     )
 }
