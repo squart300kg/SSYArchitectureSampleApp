@@ -16,7 +16,7 @@ class RemoteImageDataSource @Inject constructor(
                 kakaoApi.fetchImages(keyWord = keyWord).documents.forEach { image ->
                     add(
                         ItemImageUiState(
-                            thumbnail = image.thumbnailUrl,
+                            thumbnailUrl = image.thumbnailUrl,
                             date = image.dateTime,
                             isFavorite = false
                         )
@@ -27,7 +27,7 @@ class RemoteImageDataSource @Inject constructor(
                 kakaoApi.fetchVideos(keyWord = keyWord).documents.forEach { image ->
                     add(
                         ItemImageUiState(
-                            thumbnail = image.thumbnail,
+                            thumbnailUrl = image.thumbnail,
                             date = image.dateTime,
                             isFavorite = false
                         )

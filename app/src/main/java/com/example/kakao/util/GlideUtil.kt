@@ -8,8 +8,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.example.kakao.R
 
+// TODO: 이녀석을 util에 정리하는게 맞을까?
 object GlideUtil {
-
     fun loadImage(imageView: ImageView, url: String) {
         Glide.with(imageView)
             .load(url)
@@ -17,7 +17,6 @@ object GlideUtil {
                 RequestOptions.bitmapTransform(
                     MultiTransformation(
                         CenterCrop(),
-//                        RoundedCorners(111)
                     )
                 )
             )
