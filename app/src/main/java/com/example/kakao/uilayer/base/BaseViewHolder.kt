@@ -12,14 +12,15 @@ open class BaseViewHolder<T, B: ViewDataBinding>(
     parent: ViewGroup,
     @LayoutRes layoutRes: Int,
 ): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)) {
-    private val itemBinding: B? = DataBindingUtil.bind(itemView)
+    private val itemBinding: B = DataBindingUtil.bind(itemView)!!
+    // TODO: 강제언랩핑 처리
 
     fun bindItem(item: T) {
-        itemBinding?.setVariable(itemId, item)
-        itemBinding?.executePendingBindings()
+        itemBinding.setVariable(itemId, item)
+        itemBinding.executePendingBindings()
     }
 
-    protected fun binding(action: B?.() -> Unit) {
+    protected fun binding(action: B.() -> Unit) {
         itemBinding.run(action)
     }
 

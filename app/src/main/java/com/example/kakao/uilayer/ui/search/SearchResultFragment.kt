@@ -20,7 +20,11 @@ import kotlinx.coroutines.launch
 class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.search_result_fragment) {
 
     private val viewModel: SearchResultViewModel by viewModels()
-    private val imageAdapter by lazy { ImageAdapter() }
+    private val imageAdapter by lazy { ImageAdapter(
+        onSaveImage = (viewModel::saveImageToLocal),
+        onDeleteImage = (viewModel::deleteImageToLocal)
+    )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,6 +41,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
         }
 
         // TODO: 데이터바인딩 + 바인딩어댑터?
+        //  ㄴ> 만약, 상태유지시, 로딩과 에러메시지 Base로 빼는법 고민
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {

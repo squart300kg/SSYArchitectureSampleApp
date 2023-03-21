@@ -5,6 +5,4 @@ data class ItemImageUiState(
     val date: String? = null,
     val time: String? = null,
     val isFavorite: Boolean = false
-) {
-
-}
+)

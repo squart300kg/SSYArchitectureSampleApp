@@ -8,7 +8,10 @@ import com.example.kakao.databinding.ItemImageBinding
 import com.example.kakao.uilayer.base.BaseViewHolder
 import com.example.kakao.uilayer.model.ItemImageUiState
 
-class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+class ImageAdapter(
+    private val onSaveImage: (imageUrl: String) -> Unit = {},
+    private val onDeleteImage: (imageUrl: String) -> Unit = {},
+): RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     private val items = mutableListOf<ItemImageUiState>()
 
@@ -25,6 +28,7 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         holder.bindItem(items[position])
+        holder.initClickListener()
     }
 
     override fun getItemCount() = items.size
@@ -40,6 +44,16 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
         parent: ViewGroup,
         layoutRes: Int
     ): BaseViewHolder<ItemImageUiState, ItemImageBinding>(itemId, parent, layoutRes) {
-
+        fun initClickListener() {
+            binding {
+                checkBox.setOnClickListener {
+                    if (checkBox.isChecked) {
+                        onSaveImage(items[absoluteAdapterPosition].thumbnailUrl ?: "")
+                    } else {
+                        onDeleteImage(items[absoluteAdapterPosition].thumbnailUrl ?: "")
+                    }
+                }
+            }
+        }
     }
 }

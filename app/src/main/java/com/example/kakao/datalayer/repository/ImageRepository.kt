@@ -50,7 +50,12 @@ class ImageRepository @Inject constructor(
         }
     }
 
-    fun addFavoriteImageInLocal(id: String) {}
-    fun deleteFavoriteImageInLocal(id: String) {}
+    fun saveImageToLocal(imageUrl: String) {
+        localImageDataSource.saveImageToLocal(imageUrl)
+    }
+
+    fun deleteImageToLocal(imageUrl: String) {
+        localImageDataSource.deleteImageToLocal(imageUrl)
+    }
 
 }

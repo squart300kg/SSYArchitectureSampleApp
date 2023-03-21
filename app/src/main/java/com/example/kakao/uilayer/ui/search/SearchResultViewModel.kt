@@ -2,6 +2,7 @@ package com.example.kakao.uilayer.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.kakao.datalayer.repository.ImageRepository
 import com.example.kakao.domainlayer.GetSortedHomeImageUseCase
 import com.example.kakao.uilayer.base.BaseViewModel
 import com.example.kakao.uilayer.model.ItemImageUiState
@@ -20,6 +21,7 @@ data class SearchResultUiState(
 @HiltViewModel
 class SearchResultViewModel @Inject constructor(
     private val getSortedHomeImageUseCase: GetSortedHomeImageUseCase,
+    private val imageRepository: ImageRepository,
 ): BaseViewModel() {
 
     private val _searchResultUiState = MutableStateFlow(SearchResultUiState())
@@ -44,6 +46,15 @@ class SearchResultViewModel @Inject constructor(
                     )
                 }
         }
+    }
+
+    // TODO: 일단 save와 delete를 따로 만들고, 가능하면 중복 정리하기
+    fun saveImageToLocal(imageUrl: String) {
+        imageRepository.saveImageToLocal(imageUrl)
+    }
+
+    fun deleteImageToLocal(imageUrl: String) {
+        imageRepository.deleteImageToLocal(imageUrl)
     }
 
 }
