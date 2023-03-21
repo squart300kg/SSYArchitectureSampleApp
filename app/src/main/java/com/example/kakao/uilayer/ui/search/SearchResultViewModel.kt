@@ -3,6 +3,7 @@ package com.example.kakao.uilayer.ui.search
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kakao.domainlayer.GetSortedHomeImageUseCase
+import com.example.kakao.uilayer.base.BaseViewModel
 import com.example.kakao.uilayer.model.ItemImageUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +20,7 @@ data class SearchResultUiState(
 @HiltViewModel
 class SearchResultViewModel @Inject constructor(
     private val getSortedHomeImageUseCase: GetSortedHomeImageUseCase,
-) : ViewModel() {
+): BaseViewModel() {
 
     private val _searchResultUiState = MutableStateFlow(SearchResultUiState())
     val searchResultUiState = _searchResultUiState.asStateFlow()
@@ -27,12 +28,20 @@ class SearchResultViewModel @Inject constructor(
     fun search(keyWord: String) {
         viewModelScope.launch {
             getSortedHomeImageUseCase(keyWord = keyWord)
+                .onStart { setLoading(true) }
                 .flowOn(Dispatchers.IO)
-                .catch {  }
-                .collect { itemImageUiState ->
-                    _searchResultUiState.update {
-                        it.copy(items = itemImageUiState)
-                    }
+                .map { Result.success(it) }
+                .catch { emit(Result.failure(it)) }
+                .onCompletion { setLoading(false) }
+                .collect { result ->
+                    result.fold(
+                        onSuccess = { uiStates ->
+                            _searchResultUiState.update {
+                                it.copy(items = uiStates)
+                            }
+                        },
+                        onFailure = (::showError)
+                    )
                 }
         }
     }

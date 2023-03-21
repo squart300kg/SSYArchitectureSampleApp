@@ -14,6 +14,6 @@ class GetSortedHomeImageUseCase @Inject constructor(
     //  flatMapConcat or flatMapMerge or flatMapLatest의 사용 고려?
     //  https://kotlinworld.com/263 참고
     operator fun invoke(keyWord: String): Flow<List<ItemImageUiState>> {
-        return imageRepository.fetchRemoteImage(keyWord)
+        return imageRepository.fetchRemoteImage("설현")
     }
 }

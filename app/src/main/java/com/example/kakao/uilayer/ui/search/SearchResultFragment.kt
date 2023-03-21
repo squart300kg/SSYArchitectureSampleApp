@@ -3,6 +3,8 @@ package com.example.kakao.uilayer.ui.search
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -32,16 +34,32 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
                 setHasFixedSize(true)
                 adapter = imageAdapter
             }
-
         }
 
+        // TODO: 데이터바인딩 + 바인딩어댑터?
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.searchResultUiState.collect { searchResultUiState ->
-                    imageAdapter.submitList(searchResultUiState.items)
+                launch {
+                    viewModel.searchResultUiState.collect { searchResultUiState ->
+                        imageAdapter.submitList(searchResultUiState.items)
+                    }
+                }
+
+                launch {
+                    viewModel.isLoading.collect { isLoading ->
+                        binding.loadingBar.isVisible = isLoading
+                    }
+                }
+
+                launch {
+                    viewModel.errorMessage.collect { errorMessage ->
+                        errorMessage?.let { message ->
+                            Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
+
+                        }
+                    }
                 }
             }
         }
     }
-
 }
