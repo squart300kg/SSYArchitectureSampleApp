@@ -1,9 +1,9 @@
 package com.example.kakao.datalayer.datasource
 
 import com.example.kakao.datalayer.api.KakaoApi
-import com.example.kakao.uilayer.model.ItemImageUiState
-import com.example.kakao.util.extractDate
-import com.example.kakao.util.extractTime
+import com.example.kakao.datalayer.model.SortType
+import com.example.kakao.datalayer.model.response.ImageResponseModel
+import com.example.kakao.datalayer.model.response.VideoResponseModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -12,38 +12,15 @@ class RemoteImageDataSource @Inject constructor(
     private val kakaoApi: KakaoApi,
 ) {
 
-    // TODO: 서버 timezone표시방법 고민!!
-    fun fetchImages(keyWord: String): Flow<List<ItemImageUiState>> {
+    fun fetchImages(keyWord: String): Flow<ImageResponseModel> {
         return flow {
-            val itemImageUiStatesForImageApi = mutableListOf<ItemImageUiState>().apply {
-                kakaoApi.fetchImages(keyWord = keyWord).documents.forEach { image ->
-                    add(
-                        ItemImageUiState(
-                            thumbnailUrl = image.thumbnailUrl,
-                            date = image.dateTime.extractDate(),
-                            time = image.dateTime.extractTime(),
-                            isFavorite = false
-                        )
-                    )
-                }
-            }
-            val itemImageUiStatesForVideoApi = mutableListOf<ItemImageUiState>().apply {
-                kakaoApi.fetchVideos(keyWord = keyWord).documents.forEach { image ->
-                    add(
-                        ItemImageUiState(
-                            thumbnailUrl = image.thumbnail,
-                            date = image.dateTime.extractDate(),
-                            time = image.dateTime.extractTime(),
-                            isFavorite = false
-                        )
-                    )
-                }
-            }
+            emit(kakaoApi.fetchImages(keyWord = keyWord, sortType = SortType.RECENCY.value))
+        }
+    }
 
-            val itemImageUiStates = (itemImageUiStatesForImageApi + itemImageUiStatesForVideoApi)
-                .distinct()
-                .sortedWith(compareByDescending(ItemImageUiState::date).thenByDescending(ItemImageUiState::time))
-            emit(itemImageUiStates)
+    fun fetchVideos(keyWord: String): Flow<VideoResponseModel> {
+        return flow {
+            emit(kakaoApi.fetchVideos(keyWord = keyWord, sortType = SortType.RECENCY.value))
         }
     }
 }

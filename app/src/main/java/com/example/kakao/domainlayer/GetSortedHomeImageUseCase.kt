@@ -1,10 +1,8 @@
 package com.example.kakao.domainlayer
 
-import android.util.Log
 import com.example.kakao.datalayer.repository.ImageRepository
 import com.example.kakao.uilayer.model.ItemImageUiState
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 // TODO: 네이밍 고려
@@ -16,7 +14,6 @@ class GetSortedHomeImageUseCase @Inject constructor(
     //  flatMapConcat or flatMapMerge or flatMapLatest의 사용 고려?
     //  https://kotlinworld.com/263 참고
     operator fun invoke(keyWord: String): Flow<List<ItemImageUiState>> {
-        Log.i("key", keyWord)
-        return imageRepository.remoteImages
+        return imageRepository.fetchRemoteImage(keyWord)
     }
 }
