@@ -22,7 +22,7 @@ class LocalImageDataSource @Inject constructor(
     fun saveImage(imageUiState: ItemImageUiState): Flow<Unit> {
         return fetchImages().map { localImages ->
             if (localImages.contains(imageUiState).not()) {
-                val updatedImages = localImages.toMutableList().apply { add(imageUiState) }
+                val updatedImages = localImages.toMutableList().apply { add(imageUiState.copy(isFavorite = true)) }
                 sharedPreferences.edit().putString(LOCAL_IMAGE_ITEMS, Gson().toJson(updatedImages)).apply()
             } else {
                 throw CloneNotSupportedException(context.resources.getString(R.string.ErrorDuplicatedLocalImageSelect))
