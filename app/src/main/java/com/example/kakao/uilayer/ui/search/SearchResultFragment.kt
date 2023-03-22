@@ -1,7 +1,6 @@
 package com.example.kakao.uilayer.ui.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -23,7 +22,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
     private val imageAdapter by lazy { ImageAdapter(
         onSaveImage = (viewModel::saveImageToLocal),
         onDeleteImage = (viewModel::deleteImageToLocal)
-    )
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,7 +33,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
                 viewModel.search("${etSearch.text}")
             }
 
-            rvSearchResultRv.apply {
+            rvSearchResult.apply {
                 setHasFixedSize(true)
                 adapter = imageAdapter
             }
@@ -42,11 +41,12 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
 
         // TODO: 데이터바인딩 + 바인딩어댑터?
         //  ㄴ> 만약, 상태유지시, 로딩과 에러메시지 Base로 빼는법 고민
+        //  ㄴ> 만약, 상태유지시, STARTED or RESUME 고민
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.searchResultUiState.collect { searchResultUiState ->
-                        imageAdapter.submitList(searchResultUiState.items)
+                    viewModel.uiState.collect { uiState ->
+                        imageAdapter.submitList(uiState.items)
                     }
                 }
 

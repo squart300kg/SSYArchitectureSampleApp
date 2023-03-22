@@ -11,7 +11,7 @@ open class BaseActivity<T: ViewDataBinding>(
     @LayoutRes private val layoutRes: Int
 ): AppCompatActivity() {
 
-    private lateinit var dataBinding: T
+    protected lateinit var dataBinding: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

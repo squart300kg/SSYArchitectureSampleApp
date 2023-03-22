@@ -4,6 +4,7 @@
     <!--  HomebottomNavBar  -->
     <string name="searchResult">검색 결과</string>
     <string name="myLocker">내 보관함</string>
+    <string name="appExistMessage">\'이전\' 버튼을 한번 더 누르시면 종료됩니다.</string>
 
     <!--  SearchResultUi  -->
     <string name="search">검색</string>

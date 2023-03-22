@@ -1,5 +1,6 @@
 package com.example.kakao.uilayer.ui.search
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.kakao.datalayer.repository.ImageRepository
 import com.example.kakao.domainlayer.GetHomeImagesWithCheckedUseCase
@@ -7,6 +8,7 @@ import com.example.kakao.uilayer.base.BaseViewModel
 import com.example.kakao.uilayer.model.ItemImageUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,8 +23,8 @@ class SearchResultViewModel @Inject constructor(
     private val imageRepository: ImageRepository,
 ): BaseViewModel() {
 
-    private val _searchResultUiState = MutableStateFlow(SearchResultUiState())
-    val searchResultUiState = _searchResultUiState.asStateFlow()
+    private val _uiState = MutableStateFlow(SearchResultUiState())
+    val uiState = _uiState.asStateFlow()
 
     fun search(keyWord: String) {
         viewModelScope.launch {
@@ -35,7 +37,7 @@ class SearchResultViewModel @Inject constructor(
                 .collect { result ->
                     result.fold(
                         onSuccess = { uiStates ->
-                            _searchResultUiState.update {
+                            _uiState.update {
                                 it.copy(items = uiStates)
                             }
                         },
