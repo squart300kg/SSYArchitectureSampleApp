@@ -2,7 +2,7 @@ package com.example.kakao.uilayer.ui.search
 
 import androidx.lifecycle.viewModelScope
 import com.example.kakao.datalayer.repository.ImageRepository
-import com.example.kakao.domainlayer.GetSortedHomeImageUseCase
+import com.example.kakao.domainlayer.GetHomeImagesWithCheckedUseCase
 import com.example.kakao.uilayer.base.BaseViewModel
 import com.example.kakao.uilayer.model.ItemImageUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ data class SearchResultUiState(
 
 @HiltViewModel
 class SearchResultViewModel @Inject constructor(
-    private val getSortedHomeImageUseCase: GetSortedHomeImageUseCase,
+    private val getHomeImagesWithCheckedUseCase: GetHomeImagesWithCheckedUseCase,
     private val imageRepository: ImageRepository,
 ): BaseViewModel() {
 
@@ -26,7 +26,7 @@ class SearchResultViewModel @Inject constructor(
 
     fun search(keyWord: String) {
         viewModelScope.launch {
-            getSortedHomeImageUseCase(keyWord = keyWord)
+            getHomeImagesWithCheckedUseCase(keyWord = keyWord)
                 .onStart { setLoading(true) }
                 .flowOn(Dispatchers.IO)
                 .map { Result.success(it) }

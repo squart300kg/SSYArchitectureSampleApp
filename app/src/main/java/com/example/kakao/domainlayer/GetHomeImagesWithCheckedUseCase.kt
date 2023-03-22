@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 // TODO: 네이밍 고려
-class GetSortedHomeImageUseCase @Inject constructor(
+class GetHomeImagesWithCheckedUseCase @Inject constructor(
     private val imageRepository: ImageRepository
 ) {
 
