@@ -59,8 +59,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
                 launch {
                     viewModel.errorMessage.collect { errorMessage ->
                         errorMessage?.let { message ->
-                            Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
-
+                            Toast.makeText(requireActivity(), message, Toast.LENGTH_LONG).show()
                         }
                     }
                 }

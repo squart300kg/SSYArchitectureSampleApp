@@ -9,8 +9,8 @@ import com.example.kakao.uilayer.base.BaseViewHolder
 import com.example.kakao.uilayer.model.ItemImageUiState
 
 class ImageAdapter(
-    private val onSaveImage: (imageUrl: String) -> Unit = {},
-    private val onDeleteImage: (imageUrl: String) -> Unit = {},
+    private val onSaveImage: (ItemImageUiState) -> Unit = {},
+    private val onDeleteImage: (ItemImageUiState) -> Unit = {},
 ): RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     private val items = mutableListOf<ItemImageUiState>()
@@ -48,9 +48,9 @@ class ImageAdapter(
             binding {
                 checkBox.setOnClickListener {
                     if (checkBox.isChecked) {
-                        onSaveImage(items[absoluteAdapterPosition].thumbnailUrl ?: "")
+                        onSaveImage(items[absoluteAdapterPosition])
                     } else {
-                        onDeleteImage(items[absoluteAdapterPosition].thumbnailUrl ?: "")
+                        onDeleteImage(items[absoluteAdapterPosition])
                     }
                 }
             }

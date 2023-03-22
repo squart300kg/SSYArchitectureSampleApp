@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">KakaoBank</string>
+
+    <!--  HomebottomNavBar  -->
     <string name="searchResult">검색 결과</string>
     <string name="myLocker">내 보관함</string>
+
+    <!--  SearchResultUi  -->
     <string name="search">검색</string>
+
+    <!--  error  -->
+    <string name="ErrorNotFoundImageSelect">not found image select error</string>
+    <string name="ErrorDuplicatedLocalImageSelect">duplicated local image select error</string>
+
+    <!--  dateFormat  -->
+    <string name="searchResultDateFormat">yyyy년 MM월 dd일</string>
+    <string name="searchResultTimeFormat">HH시 mm분 ss초</string>
 </resources>

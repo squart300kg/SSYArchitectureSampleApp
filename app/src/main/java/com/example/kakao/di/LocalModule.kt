@@ -9,13 +9,12 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 const val PREFERENCE_NAME = "LOCAL_IMAGE_PREFERENCE"
-const val LOCAL_IMAGES = "LOCAL_IMAGES"
+
+const val LOCAL_IMAGE_ITEMS = "LOCAL_IMAGE_ITEMS"
 
 @InstallIn(SingletonComponent::class)
 @Module
 object LocalModule {
-
-
 
     @Provides
     @Singleton

@@ -1,14 +1,19 @@
 package com.example.kakao.datalayer.repository
 
+import android.content.Context
+import com.example.kakao.R
 import com.example.kakao.datalayer.datasource.LocalImageDataSource
 import com.example.kakao.datalayer.datasource.RemoteImageDataSource
 import com.example.kakao.uilayer.model.ItemImageUiState
-import com.example.kakao.util.extractDate
-import com.example.kakao.util.extractTime
-import kotlinx.coroutines.flow.*
+import com.example.kakao.util.convertFormatTo
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ImageRepository @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val remoteImageDataSource: RemoteImageDataSource,
     private val localImageDataSource: LocalImageDataSource,
 ) {
@@ -20,8 +25,8 @@ class ImageRepository @Inject constructor(
                     add(
                         ItemImageUiState(
                             thumbnailUrl = document.thumbnailUrl,
-                            date = document.dateTime.extractDate(),
-                            time = document.dateTime.extractTime(),
+                            date = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultDateFormat),
+                            time = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultTimeFormat),
                             isFavorite = false
                         )
                     )
@@ -34,8 +39,8 @@ class ImageRepository @Inject constructor(
                     add(
                         ItemImageUiState(
                             thumbnailUrl = document.thumbnail,
-                            date = document.dateTime.extractDate(),
-                            time = document.dateTime.extractTime(),
+                            date = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultDateFormat),
+                            time = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultTimeFormat),
                             isFavorite = false
                         )
                     )
@@ -50,12 +55,12 @@ class ImageRepository @Inject constructor(
         }
     }
 
-    fun saveImageToLocal(imageUrl: String) {
-        localImageDataSource.saveImageToLocal(imageUrl)
-    }
+    val localImages = localImageDataSource.fetchImages()
 
-    fun deleteImageToLocal(imageUrl: String) {
-        localImageDataSource.deleteImageToLocal(imageUrl)
-    }
+    fun saveImageToLocal(imageUiState: ItemImageUiState)
+        = localImageDataSource.saveImage(imageUiState)
+
+    fun deleteImageToLocal(imageUiState: ItemImageUiState)
+        = localImageDataSource.deleteImage(imageUiState)
 
 }
