@@ -1,9 +1,11 @@
 package com.example.kakao.uilayer.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +20,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.search_result_fragment) {
 
-    private val viewModel: SearchResultViewModel by viewModels()
+    private val viewModel: SearchResultViewModel by activityViewModels()
     private val imageAdapter by lazy { ImageAdapter(
         onSaveImage = (viewModel::saveImageToLocal),
         onDeleteImage = (viewModel::deleteImageToLocal)
@@ -46,7 +48,10 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.uiState.collect { uiState ->
-                        imageAdapter.submitList(uiState.items)
+                        Log.i("updateTest", "frag collect adapterCount : "+imageAdapter.itemCount.toString())
+                        Log.i("updateTest", "frag collect result : "+uiState.toString())
+                        // TODO: save, delete시에도 notifyDataSetChanged하는 이슈 해결하기
+                        imageAdapter.submitItems(uiState)
                     }
                 }
 

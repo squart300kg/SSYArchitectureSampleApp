@@ -1,5 +1,6 @@
 package com.example.kakao.uilayer.adapter
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kakao.BR
@@ -33,10 +34,17 @@ class ImageAdapter(
 
     override fun getItemCount() = items.size
 
-    fun submitList(list: List<ItemImageUiState>) {
+    fun submitItems(list: List<ItemImageUiState>) {
         items.clear()
         items.addAll(list)
         notifyDataSetChanged()
+    }
+
+    fun updateItem(targetImage: ItemImageUiState) {
+        val updateTargetImage = items.find { ownImage -> ownImage.thumbnailUrl == targetImage.thumbnailUrl }
+        val updateTargetIndex = items.indexOf(updateTargetImage)
+        items[updateTargetIndex] = targetImage
+//        notifyItemChanged(updateTargetIndex)
     }
 
     inner class ImageViewHolder(
@@ -48,8 +56,12 @@ class ImageAdapter(
             binding {
                 checkBox.setOnClickListener {
                     if (checkBox.isChecked) {
-                        onSaveImage(items[absoluteAdapterPosition])
+                        Log.i("updateTest", "in adapter save position : "+absoluteAdapterPosition.toString())
+
+                        onSaveImage(items[absoluteAdapterPosition].copy(isFavorite = true))
                     } else {
+                        Log.i("updateTest", "in adapter dele position : "+absoluteAdapterPosition.toString())
+
                         onDeleteImage(items[absoluteAdapterPosition])
                     }
                 }

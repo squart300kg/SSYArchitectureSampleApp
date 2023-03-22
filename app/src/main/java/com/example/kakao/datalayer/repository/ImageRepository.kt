@@ -58,10 +58,19 @@ class ImageRepository @Inject constructor(
 
     val localImages = localImageDataSource.fetchImages()
 
-    fun saveImageToLocal(imageUiState: ItemImageUiState)
-        = localImageDataSource.saveImage(imageUiState)
+    fun saveImageToLocal(imageUiState: ItemImageUiState): Flow<ItemImageUiState> {
+        return localImageDataSource.saveImage(imageUiState).map {
+            Log.i("updateTest", "in repo save : "+it.toString())
+            it
+        }
+    }
 
-    fun deleteImageToLocal(imageUiState: ItemImageUiState)
-        = localImageDataSource.deleteImage(imageUiState)
+    fun deleteImageToLocal(imageUiState: ItemImageUiState): Flow<ItemImageUiState> {
+        return localImageDataSource.deleteImage(imageUiState).map {
+            Log.i("updateTest", "in repo dele : "+it.toString())
+            it
+        }
+    }
+
 
 }

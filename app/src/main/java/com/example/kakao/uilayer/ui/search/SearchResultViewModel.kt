@@ -13,21 +13,24 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class SearchResultUiState(
-    val items: List<ItemImageUiState> = emptyList()
-)
-
 @HiltViewModel
 class SearchResultViewModel @Inject constructor(
     private val getHomeImagesWithCheckedUseCase: GetHomeImagesWithCheckedUseCase,
     private val imageRepository: ImageRepository,
 ): BaseViewModel() {
 
-    private val _uiState = MutableStateFlow(SearchResultUiState())
+    private val _uiState = MutableStateFlow<List<ItemImageUiState>>(emptyList())
     val uiState = _uiState.asStateFlow()
 
+    // TODO: job이 너무 많은건아닌지?
+    var searchJob: Job? = null
+    var saveJob: Job? = null
+    var deleteJob: Job? = null
+    var reflectJob: Job? = null
+
     fun search(keyWord: String) {
-        viewModelScope.launch {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
             getHomeImagesWithCheckedUseCase(keyWord = keyWord)
                 .onStart { setLoading(true) }
                 .flowOn(Dispatchers.IO)
@@ -36,10 +39,8 @@ class SearchResultViewModel @Inject constructor(
                 .onCompletion { setLoading(false) }
                 .collect { result ->
                     result.fold(
-                        onSuccess = { uiStates ->
-                            _uiState.update {
-                                it.copy(items = uiStates)
-                            }
+                        onSuccess = { receivedImages ->
+                            _uiState.update { receivedImages }
                         },
                         onFailure = (::showError)
                     )
@@ -49,7 +50,8 @@ class SearchResultViewModel @Inject constructor(
 
     // TODO: 일단 save와 delete를 따로 만들고, 가능하면 중복 정리하기
     fun saveImageToLocal(imageUiState: ItemImageUiState) {
-        viewModelScope.launch {
+        saveJob?.cancel()
+        saveJob = viewModelScope.launch {
             imageRepository.saveImageToLocal(imageUiState)
                 .onStart { setLoading(true) }
                 .flowOn(Dispatchers.IO)
@@ -58,7 +60,14 @@ class SearchResultViewModel @Inject constructor(
                 .onCompletion { setLoading(false) }
                 .collect { result ->
                     result.fold(
-                        onSuccess = { },
+                        onSuccess = { savedImage ->
+                            _uiState.update { uiState ->
+                                val updateTargetImageIndex = uiState.indexOf(savedImage.copy(isFavorite = false))
+                                uiState.toMutableList().apply {
+                                    set(updateTargetImageIndex, savedImage)
+                                }
+                            }
+                        },
                         onFailure = (::showError)
                     )
                 }
@@ -67,7 +76,8 @@ class SearchResultViewModel @Inject constructor(
 
     // TODO: 공통 중간 연산자코드 정리
     fun deleteImageToLocal(imageUiState: ItemImageUiState) {
-        viewModelScope.launch {
+        deleteJob?.cancel()
+        deleteJob = viewModelScope.launch {
             imageRepository.deleteImageToLocal(imageUiState)
                 .onStart { setLoading(true) }
                 .flowOn(Dispatchers.IO)
@@ -76,11 +86,38 @@ class SearchResultViewModel @Inject constructor(
                 .onCompletion { setLoading(false) }
                 .collect { result ->
                     result.fold(
-                        onSuccess = { },
+                        onSuccess = { deletedItem ->
+                            _uiState.update { uiState ->
+                                val updateTargetImageIndex = uiState.indexOf(deletedItem)
+                                uiState.toMutableList().apply {
+                                    set(updateTargetImageIndex, deletedItem.copy(isFavorite = false))
+                                }
+                            }
+                        },
                         onFailure = (::showError)
                     )
                 }
         }
     }
 
+    fun reflectLocalImageWhenTabMove() {
+        reflectJob?.cancel()
+        reflectJob = viewModelScope.launch {
+            imageRepository.localImages
+                .onStart { setLoading(true) }
+                .flowOn(Dispatchers.IO)
+                .map { Result.success(it) }
+                .catch { emit(Result.failure(it)) }
+                .onCompletion { setLoading(false) }
+                .collect { result ->
+                    result.fold(
+                        onSuccess = { localImages ->
+
+                        },
+                        onFailure = (::showError)
+                    )
+                }
+        }
+
+    }
 }
