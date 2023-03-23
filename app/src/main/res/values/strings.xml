@@ -8,6 +8,7 @@
 
     <!--  SearchResultUi  -->
     <string name="search">검색</string>
+    <string name="searchHint">검색어를 입력해 주세요</string>
 
     <!--  error  -->
     <string name="ErrorNotFoundImageSelect">not found image select error</string>

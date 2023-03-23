@@ -16,6 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/searchHeight"
             android:padding="@dimen/searchPadding"
+            android:hint="@string/searchHint"
             app:layout_constraintHorizontal_weight="7"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
