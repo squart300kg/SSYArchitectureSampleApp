@@ -18,7 +18,7 @@ class GetHomeImagesWithCheckedUseCase @Inject constructor(
 
     // TODO: 검색어 하드코딩 지우기
     operator fun invoke(keyWord: String): Flow<List<ItemImageUiState>> {
-        return imageRepository.fetchRemoteImage("설현").combine(imageRepository.localImages) { remoteImages, localImages ->
+        return imageRepository.fetchRemoteImage("설현").combine(imageRepository.localImages()) { remoteImages, localImages ->
             remoteImages.map { remoteImage ->
                 localImages.find { localImage -> localImage.thumbnailUrl == remoteImage.thumbnailUrl }
                     ?.let { remoteImage.copy(isFavorite = true) }

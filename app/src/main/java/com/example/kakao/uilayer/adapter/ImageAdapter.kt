@@ -2,6 +2,7 @@ package com.example.kakao.uilayer.adapter
 
 import android.util.Log
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kakao.BR
 import com.example.kakao.R
@@ -9,7 +10,13 @@ import com.example.kakao.databinding.ItemImageBinding
 import com.example.kakao.uilayer.base.BaseViewHolder
 import com.example.kakao.uilayer.model.ItemImageUiState
 
+enum class ImageAdapterType {
+    SEARCH_RESULT,
+    MY_LOCKER
+}
+
 class ImageAdapter(
+    private val imageAdapterType: ImageAdapterType,
     private val onSaveImage: (ItemImageUiState) -> Unit = {},
     private val onDeleteImage: (ItemImageUiState) -> Unit = {},
 ): RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
@@ -35,6 +42,8 @@ class ImageAdapter(
     override fun getItemCount() = items.size
 
     fun submitItems(list: List<ItemImageUiState>) {
+        Log.i("updateTest", "adapter submit : ")
+
         items.clear()
         items.addAll(list)
         notifyDataSetChanged()
@@ -52,6 +61,15 @@ class ImageAdapter(
         parent: ViewGroup,
         layoutRes: Int
     ): BaseViewHolder<ItemImageUiState, ItemImageBinding>(itemId, parent, layoutRes) {
+
+        init {
+            if (imageAdapterType == ImageAdapterType.MY_LOCKER) {
+                binding {
+                    checkBox.isVisible = false
+                }
+            }
+        }
+
         fun initClickListener() {
             binding {
                 checkBox.setOnClickListener {
@@ -59,10 +77,12 @@ class ImageAdapter(
                         Log.i("updateTest", "in adapter save position : "+absoluteAdapterPosition.toString())
 
                         onSaveImage(items[absoluteAdapterPosition].copy(isFavorite = true))
+                        items[absoluteAdapterPosition] = items[absoluteAdapterPosition].copy(isFavorite = true)
                     } else {
                         Log.i("updateTest", "in adapter dele position : "+absoluteAdapterPosition.toString())
 
                         onDeleteImage(items[absoluteAdapterPosition])
+                        items[absoluteAdapterPosition] = items[absoluteAdapterPosition].copy(isFavorite = false)
                     }
                 }
             }

@@ -57,6 +57,9 @@ class LocalImageDataSource @Inject constructor(
                     Log.i("updateTest", "in ds dele result: "+fetchImages2().toString())
                     emit(imageUiState)
                 } else {
+                    Log.i("updateTest", "in ds dele input img: "+imageUiState.toString())
+                    Log.i("updateTest", "in ds dele input own imgs: "+images.toString())
+
                     throw NotFoundException(context.resources.getString(R.string.ErrorNotFoundImageSelect))
                 }
             }

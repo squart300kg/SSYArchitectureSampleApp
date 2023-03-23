@@ -5,23 +5,24 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.kakao.R
-import com.example.kakao.uilayer.base.BaseFragment
 import com.example.kakao.databinding.SearchResultFragmentBinding
 import com.example.kakao.uilayer.adapter.ImageAdapter
+import com.example.kakao.uilayer.adapter.ImageAdapterType
+import com.example.kakao.uilayer.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.search_result_fragment) {
 
-    private val viewModel: SearchResultViewModel by activityViewModels()
+    private val viewModel: SearchResultViewModel by viewModels()
     private val imageAdapter by lazy { ImageAdapter(
+        imageAdapterType = ImageAdapterType.SEARCH_RESULT,
         onSaveImage = (viewModel::saveImageToLocal),
         onDeleteImage = (viewModel::deleteImageToLocal)
         )
@@ -51,7 +52,9 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
                         Log.i("updateTest", "frag collect adapterCount : "+imageAdapter.itemCount.toString())
                         Log.i("updateTest", "frag collect result : "+uiState.toString())
                         // TODO: save, delete시에도 notifyDataSetChanged하는 이슈 해결하기
-                        imageAdapter.submitItems(uiState)
+                        if (imageAdapter.itemCount == 0) {
+                            imageAdapter.submitItems(uiState)
+                        }
                     }
                 }
 

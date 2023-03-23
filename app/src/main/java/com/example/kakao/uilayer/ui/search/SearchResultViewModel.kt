@@ -99,25 +99,4 @@ class SearchResultViewModel @Inject constructor(
                 }
         }
     }
-
-    fun reflectLocalImageWhenTabMove() {
-        reflectJob?.cancel()
-        reflectJob = viewModelScope.launch {
-            imageRepository.localImages
-                .onStart { setLoading(true) }
-                .flowOn(Dispatchers.IO)
-                .map { Result.success(it) }
-                .catch { emit(Result.failure(it)) }
-                .onCompletion { setLoading(false) }
-                .collect { result ->
-                    result.fold(
-                        onSuccess = { localImages ->
-
-                        },
-                        onFailure = (::showError)
-                    )
-                }
-        }
-
-    }
 }

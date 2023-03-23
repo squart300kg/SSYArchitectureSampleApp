@@ -56,18 +56,25 @@ class ImageRepository @Inject constructor(
         }
     }
 
-    val localImages = localImageDataSource.fetchImages()
+    fun localImages(): Flow<List<ItemImageUiState>> {
+        return localImageDataSource.fetchImages().map {
+            Log.i("updateTest", "in repo fetch local img : "+it.toString())
+            it
+        }
+    }
 
     fun saveImageToLocal(imageUiState: ItemImageUiState): Flow<ItemImageUiState> {
         return localImageDataSource.saveImage(imageUiState).map {
-            Log.i("updateTest", "in repo save : "+it.toString())
+            Log.i("updateTest", "in repo save result : "+it.toString())
+            Log.i("updateTest", "in repo save count : "+localImageDataSource.fetchImages2().count().toString())
             it
         }
     }
 
     fun deleteImageToLocal(imageUiState: ItemImageUiState): Flow<ItemImageUiState> {
         return localImageDataSource.deleteImage(imageUiState).map {
-            Log.i("updateTest", "in repo dele : "+it.toString())
+            Log.i("updateTest", "in repo dele result : "+it.toString())
+            Log.i("updateTest", "in repo dele count : "+localImageDataSource.fetchImages2().count().toString())
             it
         }
     }

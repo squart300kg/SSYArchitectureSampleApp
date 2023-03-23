@@ -1,11 +1,9 @@
 package com.example.kakao.uilayer.ui.locker
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.kakao.R
 import com.example.kakao.databinding.MyLockerFragmentBinding
 import com.example.kakao.uilayer.adapter.ImageAdapter
+import com.example.kakao.uilayer.adapter.ImageAdapterType
 import com.example.kakao.uilayer.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -20,8 +19,9 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MyLockerFragment : BaseFragment<MyLockerFragmentBinding>(R.layout.my_locker_fragment) {
 
-    private val viewModel: MyLockerViewModel by activityViewModels()
+    private val viewModel: MyLockerViewModel by viewModels()
     private val imageAdapter by lazy { ImageAdapter(
+        imageAdapterType = ImageAdapterType.MY_LOCKER,
         onDeleteImage = (viewModel::deleteImageToLocal)
         )
     }
