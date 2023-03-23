@@ -26,7 +26,6 @@ class SearchResultViewModel @Inject constructor(
     var searchJob: Job? = null
     var saveJob: Job? = null
     var deleteJob: Job? = null
-    var reflectJob: Job? = null
 
     fun search(keyWord: String) {
         searchJob?.cancel()

@@ -52,9 +52,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
                         Log.i("updateTest", "frag collect adapterCount : "+imageAdapter.itemCount.toString())
                         Log.i("updateTest", "frag collect result : "+uiState.toString())
                         // TODO: save, delete시에도 notifyDataSetChanged하는 이슈 해결하기
-                        if (imageAdapter.itemCount == 0) {
-                            imageAdapter.submitItems(uiState)
-                        }
+                        imageAdapter.submitItems(uiState)
                     }
                 }
 

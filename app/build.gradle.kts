@@ -62,7 +62,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.code.gson:gson:2.8.6")
-    implementation("androidx.paging:paging-runtime-ktx:3.0.0")
+    implementation("androidx.paging:paging-runtime-ktx:3.1.1")
     implementation("com.squareup.okhttp3:logging-interceptor:4.7.2")
 
     // GLIDE

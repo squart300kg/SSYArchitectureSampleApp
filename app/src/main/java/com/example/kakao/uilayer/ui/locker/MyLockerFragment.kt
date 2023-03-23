@@ -21,8 +21,7 @@ class MyLockerFragment : BaseFragment<MyLockerFragmentBinding>(R.layout.my_locke
 
     private val viewModel: MyLockerViewModel by viewModels()
     private val imageAdapter by lazy { ImageAdapter(
-        imageAdapterType = ImageAdapterType.MY_LOCKER,
-        onDeleteImage = (viewModel::deleteImageToLocal)
+        imageAdapterType = ImageAdapterType.MY_LOCKER
         )
     }
 

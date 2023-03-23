@@ -21,21 +21,4 @@ class MyLockerViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(),
             initialValue = emptyList()
         )
-
-    fun deleteImageToLocal(imageUiState: ItemImageUiState) {
-        viewModelScope.launch {
-            imageRepository.deleteImageToLocal(imageUiState)
-                .onStart { setLoading(true) }
-                .flowOn(Dispatchers.IO)
-                .map { Result.success(it) }
-                .catch { emit(Result.failure(it)) }
-                .onCompletion { setLoading(false) }
-                .collect { result ->
-                    result.fold(
-                        onSuccess = { },
-                        onFailure = (::showError)
-                    )
-                }
-        }
-    }
 }
