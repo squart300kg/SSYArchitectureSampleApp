@@ -2,59 +2,35 @@ package com.example.kakao.datalayer.repository
 
 import android.content.Context
 import android.util.Log
-import com.example.kakao.R
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import com.example.kakao.datalayer.api.KakaoApi
+import com.example.kakao.datalayer.datasource.END_PAGING_COUNT
 import com.example.kakao.datalayer.datasource.LocalImageDataSource
-import com.example.kakao.datalayer.datasource.RemoteImageDataSource
+import com.example.kakao.datalayer.datasource.RemoteImagePagingSource
 import com.example.kakao.uilayer.model.ItemImageUiState
-import com.example.kakao.util.convertFormatTo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ImageRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val remoteImageDataSource: RemoteImageDataSource,
+    private val kakaoApi: KakaoApi,
     private val localImageDataSource: LocalImageDataSource,
 ) {
 
-    fun fetchRemoteImage(keyWord: String): Flow<List<ItemImageUiState>> {
-        val itemImageUiStatesForImageApi = remoteImageDataSource.fetchImages(keyWord).map { imageResponseModel ->
-            mutableListOf<ItemImageUiState>().apply {
-                imageResponseModel.documents.forEach { document ->
-                    add(
-                        ItemImageUiState(
-                            thumbnailUrl = document.thumbnailUrl,
-                            date = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultDateFormat),
-                            time = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultTimeFormat),
-                            isFavorite = false
-                        )
-                    )
-                }
-            }
-        }
-        val itemImageUiStatesForVideoApi = remoteImageDataSource.fetchVideos(keyWord).map { videoResponseModel ->
-            mutableListOf<ItemImageUiState>().apply {
-                videoResponseModel.documents.forEach { document ->
-                    add(
-                        ItemImageUiState(
-                            thumbnailUrl = document.thumbnail,
-                            date = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultDateFormat),
-                            time = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultTimeFormat),
-                            isFavorite = false
-                        )
-                    )
-                }
-            }
-        }
-
-        return itemImageUiStatesForImageApi.combine(itemImageUiStatesForVideoApi) { imageApi, videoApi ->
-            (imageApi + videoApi)
-                .distinctBy(ItemImageUiState::thumbnailUrl)
-                .sortedWith(compareByDescending(ItemImageUiState::date).thenByDescending(ItemImageUiState::time))
-        }
-    }
+    fun fetchRemoteImage2(keyWord: String) =
+        Pager(PagingConfig(
+            pageSize = END_PAGING_COUNT,
+            enablePlaceholders = false
+        )) {
+            RemoteImagePagingSource(
+                kakaoApi = kakaoApi,
+                context = context,
+                keyWord = keyWord
+            )
+        }.flow
 
     fun localImages(): Flow<List<ItemImageUiState>> {
         return localImageDataSource.fetchImages().map {

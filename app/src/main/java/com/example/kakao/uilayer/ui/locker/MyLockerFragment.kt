@@ -41,9 +41,9 @@ class MyLockerFragment : BaseFragment<MyLockerFragmentBinding>(R.layout.my_locke
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.uiState.collect { uiState ->
-                        imageAdapter.submitItems(uiState)
-                    }
+//                    viewModel.uiState.collect { uiState ->
+//                        imageAdapter.submitItems(uiState)
+//                    }
                 }
 
                 launch {

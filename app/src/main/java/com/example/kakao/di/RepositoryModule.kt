@@ -1,8 +1,8 @@
 package com.example.kakao.di
 
 import android.content.Context
+import com.example.kakao.datalayer.api.KakaoApi
 import com.example.kakao.datalayer.datasource.LocalImageDataSource
-import com.example.kakao.datalayer.datasource.RemoteImageDataSource
 import com.example.kakao.datalayer.repository.ImageRepository
 import dagger.Module
 import dagger.Provides
@@ -19,11 +19,11 @@ object RepositoryModule {
     @Singleton
     fun provideImageRepository(
         @ApplicationContext context: Context,
-        remoteImageDataSource: RemoteImageDataSource,
+        kakaoApi: KakaoApi,
         localImageDataSource: LocalImageDataSource
     ): ImageRepository = ImageRepository(
         context = context,
-        remoteImageDataSource = remoteImageDataSource,
+        kakaoApi = kakaoApi,
         localImageDataSource = localImageDataSource
     )
 
