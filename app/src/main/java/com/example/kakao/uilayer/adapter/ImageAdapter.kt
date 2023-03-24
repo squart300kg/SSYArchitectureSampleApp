@@ -44,15 +44,8 @@ class ImageAdapter(
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         holder.bindItem(getItem(position) ?: ItemImageUiState())
-//        holder.initClickListener()
+        holder.initClickListener()
     }
-
-//    fun updateItem(targetImage: ItemImageUiState) {
-//        val updateTargetImage = items.find { ownImage -> ownImage.thumbnailUrl == targetImage.thumbnailUrl }
-//        val updateTargetIndex = items.indexOf(updateTargetImage)
-//        items[updateTargetIndex] = targetImage
-////        notifyItemChanged(updateTargetIndex)
-//    }
 
     inner class ImageViewHolder(
         itemId: Int,
@@ -68,22 +61,20 @@ class ImageAdapter(
             }
         }
 
-//        fun initClickListener() {
-//            binding {
-//                checkBox.setOnClickListener {
-//                    if (checkBox.isChecked) {
-//                        Log.i("updateTest", "in adapter save position : "+absoluteAdapterPosition.toString())
-//
-//                        onSaveImage(items[absoluteAdapterPosition].copy(isFavorite = true))
-//                        items[absoluteAdapterPosition] = items[absoluteAdapterPosition].copy(isFavorite = true)
-//                    } else {
-//                        Log.i("updateTest", "in adapter dele position : "+absoluteAdapterPosition.toString())
-//
-//                        onDeleteImage(items[absoluteAdapterPosition])
-//                        items[absoluteAdapterPosition] = items[absoluteAdapterPosition].copy(isFavorite = false)
-//                    }
-//                }
-//            }
-//        }
+        fun initClickListener() {
+            binding {
+                checkBox.setOnClickListener {
+
+                    val modifyingTargetItem = snapshot()[absoluteAdapterPosition]?.copy(isFavorite = true) ?: ItemImageUiState()
+                    snapshot()[absoluteAdapterPosition]?.isFavorite = checkBox.isChecked
+                    if (checkBox.isChecked) {
+                        onSaveImage(modifyingTargetItem)
+                    } else {
+                        onDeleteImage(modifyingTargetItem)
+                    }
+
+                }
+            }
+        }
     }
 }

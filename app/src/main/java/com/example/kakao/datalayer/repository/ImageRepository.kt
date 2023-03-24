@@ -20,7 +20,7 @@ class ImageRepository @Inject constructor(
     private val localImageDataSource: LocalImageDataSource,
 ) {
 
-    fun fetchRemoteImage2(keyWord: String) =
+    fun fetchRemoteImage(keyWord: String) =
         Pager(PagingConfig(
             pageSize = END_PAGING_COUNT,
             enablePlaceholders = false
@@ -39,6 +39,7 @@ class ImageRepository @Inject constructor(
         }
     }
 
+    // TODO: 반환형 지우는거 고려
     fun saveImageToLocal(imageUiState: ItemImageUiState): Flow<ItemImageUiState> {
         return localImageDataSource.saveImage(imageUiState).map {
             Log.i("updateTest", "in repo save result : "+it.toString())

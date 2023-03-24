@@ -3,6 +3,7 @@ package com.example.kakao.uilayer.ui.search
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.kakao.datalayer.repository.ImageRepository
 import com.example.kakao.domainlayer.GetHomeImagesWithCheckedUseCase
 import com.example.kakao.uilayer.base.BaseViewModel
@@ -32,6 +33,7 @@ class SearchResultViewModel @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             getHomeImagesWithCheckedUseCase(keyWord = keyWord)
+                .cachedIn(viewModelScope)
                 .flowOn(Dispatchers.IO)
                 .map { Result.success(it) }
                 .catch { emit(Result.failure(it)) }
@@ -47,54 +49,40 @@ class SearchResultViewModel @Inject constructor(
     }
 
     // TODO: 일단 save와 delete를 따로 만들고, 가능하면 중복 정리하기
-//    fun saveImageToLocal(imageUiState: ItemImageUiState) {
-//        saveJob?.cancel()
-//        saveJob = viewModelScope.launch {
-//            imageRepository.saveImageToLocal(imageUiState)
-//                .onStart { setLoading(true) }
-//                .flowOn(Dispatchers.IO)
-//                .map { Result.success(it) }
-//                .catch { emit(Result.failure(it)) }
-//                .onCompletion { setLoading(false) }
-//                .collect { result ->
-//                    result.fold(
-//                        onSuccess = { savedImage ->
-//                            _uiState.update { uiState ->
-//                                val updateTargetImageIndex = uiState.indexOf(savedImage.copy(isFavorite = false))
-//                                uiState.toMutableList().apply {
-//                                    set(updateTargetImageIndex, savedImage)
-//                                }
-//                            }
-//                        },
-//                        onFailure = (::showError)
-//                    )
-//                }
-//        }
-//    }
+    fun saveImageToLocal(imageUiState: ItemImageUiState) {
+        saveJob?.cancel()
+        saveJob = viewModelScope.launch {
+            imageRepository.saveImageToLocal(imageUiState)
+                .onStart { setLoading(true) }
+                .flowOn(Dispatchers.IO)
+                .map { Result.success(it) }
+                .catch { emit(Result.failure(it)) }
+                .onCompletion { setLoading(false) }
+                .collect { result ->
+                    result.fold(
+                        onSuccess = {},
+                        onFailure = (::showError)
+                    )
+                }
+        }
+    }
 
     // TODO: 공통 중간 연산자코드 정리
-//    fun deleteImageToLocal(imageUiState: ItemImageUiState) {
-//        deleteJob?.cancel()
-//        deleteJob = viewModelScope.launch {
-//            imageRepository.deleteImageToLocal(imageUiState)
-//                .onStart { setLoading(true) }
-//                .flowOn(Dispatchers.IO)
-//                .map { Result.success(it) }
-//                .catch { emit(Result.failure(it)) }
-//                .onCompletion { setLoading(false) }
-//                .collect { result ->
-//                    result.fold(
-//                        onSuccess = { deletedItem ->
-//                            _uiState.update { uiState ->
-//                                val updateTargetImageIndex = uiState.indexOf(deletedItem)
-//                                uiState.toMutableList().apply {
-//                                    set(updateTargetImageIndex, deletedItem.copy(isFavorite = false))
-//                                }
-//                            }
-//                        },
-//                        onFailure = (::showError)
-//                    )
-//                }
-//        }
-//    }
+    fun deleteImageToLocal(imageUiState: ItemImageUiState) {
+        deleteJob?.cancel()
+        deleteJob = viewModelScope.launch {
+            imageRepository.deleteImageToLocal(imageUiState)
+                .onStart { setLoading(true) }
+                .flowOn(Dispatchers.IO)
+                .map { Result.success(it) }
+                .catch { emit(Result.failure(it)) }
+                .onCompletion { setLoading(false) }
+                .collect { result ->
+                    result.fold(
+                        onSuccess = {},
+                        onFailure = (::showError)
+                    )
+                }
+        }
+    }
 }

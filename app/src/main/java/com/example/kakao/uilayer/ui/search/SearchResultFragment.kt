@@ -25,8 +25,8 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
     private val viewModel: SearchResultViewModel by viewModels()
     private val imageAdapter by lazy { ImageAdapter(
         imageAdapterType = ImageAdapterType.SEARCH_RESULT,
-//        onSaveImage = (viewModel::saveImageToLocal),
-//        onDeleteImage = (viewModel::deleteImageToLocal)
+        onSaveImage = (viewModel::saveImageToLocal),
+        onDeleteImage = (viewModel::deleteImageToLocal)
         )
     }
 
@@ -52,8 +52,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.uiState.collect { uiState ->
-                        Log.i("updateTest", "frag collect adapterCount : "+imageAdapter.itemCount.toString())
-                        Log.i("updateTest", "frag collect result 1 : "+uiState.toString())
+                        Log.i("updateTest", "frag uiState.collect adapterCount : "+imageAdapter.itemCount.toString())
                         // TODO: save, delete시에도 notifyDataSetChanged하는 이슈 해결하기
                         imageAdapter.submitData(uiState)
                     }
@@ -74,5 +73,30 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("lifecycleTest", "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("lifecycleTest", "onStop")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.i("lifecycleTest", "onDestroyView")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("lifecycleTest", "onDestroy")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.i("lifecycleTest", "onDetach")
     }
 }

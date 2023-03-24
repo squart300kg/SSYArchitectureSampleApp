@@ -19,7 +19,7 @@ const val MAX_PAGE_COUNT_FOR_VIDEO_API = 15
 val END_PAGING_COUNT = max(MAX_PAGE_COUNT_FOR_IMAGE_API, MAX_PAGE_COUNT_FOR_VIDEO_API)
 
 const val MAX_DOCUMENT_SIZE_FOR_IMAGE_API = 80
-const val MAX_DOCUMENT_SIZE_FOR_VIDEO_API = 50
+const val MAX_DOCUMENT_SIZE_FOR_VIDEO_API = 30
 
 class RemoteImagePagingSource @Inject constructor(
     private val kakaoApi: KakaoApi,
@@ -39,6 +39,7 @@ class RemoteImagePagingSource @Inject constructor(
                     page = nextPage,
                     size = MAX_DOCUMENT_SIZE_FOR_IMAGE_API
                 ).also { imageApiResponse ->
+                    // TODO: 중복코드 정리하면 더 멋질듯?
                     imageApiResponse.documents.forEach { document ->
                         uiStatesForImageApi.add(
                             ItemImageUiState(
@@ -73,16 +74,6 @@ class RemoteImagePagingSource @Inject constructor(
                         )
                     }
                 }
-            }
-
-            if (nextPage > MAX_PAGE_COUNT_FOR_IMAGE_API) {
-                Log.i("pagingTest", "image api isEndPage")
-                Log.i("pagingTest", "image : $uiStatesForImageApi")
-            }
-
-            if (nextPage > MAX_PAGE_COUNT_FOR_VIDEO_API) {
-                Log.i("pagingTest", "video api isEndPage")
-                Log.i("pagingTest", "video : $uiStatesForVideoApi")
             }
 
             val resultUiState = (uiStatesForImageApi + uiStatesForVideoApi)
