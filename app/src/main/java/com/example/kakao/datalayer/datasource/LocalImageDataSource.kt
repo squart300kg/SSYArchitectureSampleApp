@@ -31,37 +31,31 @@ class LocalImageDataSource @Inject constructor(
             emptyList()
         }
     }
-    fun saveImage(imageUiState: ItemImageUiState): Flow<ItemImageUiState> {
-        return flow {
-            fetchImages().collect { localImages ->
-                if (localImages.contains(imageUiState).not()) {
-                    val updatedImages = localImages.toMutableList().apply { add(imageUiState) }
-                    sharedPreferences.edit().putString(LOCAL_IMAGE_ITEMS, Gson().toJson(updatedImages)).apply()
-                    Log.i("updateTest", "in ds save image: "+imageUiState.toString())
-                    Log.i("updateTest", "in ds save result: "+fetchImages2().toString())
-                    emit(imageUiState)
-                } else {
-                    throw CloneNotSupportedException(context.resources.getString(R.string.ErrorDuplicatedLocalImageSelect))
-                }
+    fun saveImage(imageUiState: ItemImageUiState): Flow<Unit> {
+        return fetchImages().map { localImages ->
+            if (localImages.contains(imageUiState).not()) {
+                val updatedImages = localImages.toMutableList().apply { add(imageUiState) }
+                sharedPreferences.edit().putString(LOCAL_IMAGE_ITEMS, Gson().toJson(updatedImages)).apply()
+                Log.i("updateTest", "in ds save image: "+imageUiState.toString())
+                Log.i("updateTest", "in ds save result: "+fetchImages2().toString())
+            } else {
+                throw CloneNotSupportedException(context.resources.getString(R.string.ErrorDuplicatedLocalImageSelect))
             }
         }
     }
 
-    fun deleteImage(imageUiState: ItemImageUiState): Flow<ItemImageUiState> {
-        return flow {
-            fetchImages().collect { images ->
-                if (images.contains(imageUiState)) {
-                    val updatedImages = images.toMutableList().apply { remove(imageUiState) }
-                    sharedPreferences.edit().putString(LOCAL_IMAGE_ITEMS, Gson().toJson(updatedImages)).apply()
-                    Log.i("updateTest", "in ds dele : "+imageUiState.toString())
-                    Log.i("updateTest", "in ds dele result: "+fetchImages2().toString())
-                    emit(imageUiState)
-                } else {
-                    Log.i("updateTest", "in ds dele input img: "+imageUiState.toString())
-                    Log.i("updateTest", "in ds dele input own imgs: "+images.toString())
+    fun deleteImage(imageUiState: ItemImageUiState): Flow<Unit> {
+        return fetchImages().map { images ->
+            if (images.contains(imageUiState)) {
+                val updatedImages = images.toMutableList().apply { remove(imageUiState) }
+                sharedPreferences.edit().putString(LOCAL_IMAGE_ITEMS, Gson().toJson(updatedImages)).apply()
+                Log.i("updateTest", "in ds dele : "+imageUiState.toString())
+                Log.i("updateTest", "in ds dele result: "+fetchImages2().toString())
+            } else {
+                Log.i("updateTest", "in ds dele input img: "+imageUiState.toString())
+                Log.i("updateTest", "in ds dele input own imgs: "+images.toString())
 
-                    throw NotFoundException(context.resources.getString(R.string.ErrorNotFoundImageSelect))
-                }
+                throw NotFoundException(context.resources.getString(R.string.ErrorNotFoundImageSelect))
             }
         }
     }

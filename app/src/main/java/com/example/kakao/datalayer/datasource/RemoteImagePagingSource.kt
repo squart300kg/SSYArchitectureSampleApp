@@ -65,7 +65,7 @@ class RemoteImagePagingSource @Inject constructor(
                 data = resultUiState,
                 prevKey = null,
                 nextKey = if (nextPage > END_PAGING_COUNT) null
-                else nextPage + 1
+                          else nextPage + 1
             )
 
         } catch (e: IOException) {

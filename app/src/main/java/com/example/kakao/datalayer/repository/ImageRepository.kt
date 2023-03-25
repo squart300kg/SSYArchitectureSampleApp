@@ -39,8 +39,7 @@ class ImageRepository @Inject constructor(
         }
     }
 
-    // TODO: 반환형 지우는거 고려
-    fun saveImageToLocal(imageUiState: ItemImageUiState): Flow<ItemImageUiState> {
+    fun saveImageToLocal(imageUiState: ItemImageUiState): Flow<Unit> {
         return localImageDataSource.saveImage(imageUiState).map {
             Log.i("updateTest", "in repo save result : "+it.toString())
             Log.i("updateTest", "in repo save count : "+localImageDataSource.fetchImages2().count().toString())
@@ -48,7 +47,7 @@ class ImageRepository @Inject constructor(
         }
     }
 
-    fun deleteImageToLocal(imageUiState: ItemImageUiState): Flow<ItemImageUiState> {
+    fun deleteImageToLocal(imageUiState: ItemImageUiState): Flow<Unit> {
         return localImageDataSource.deleteImage(imageUiState).map {
             Log.i("updateTest", "in repo dele result : "+it.toString())
             Log.i("updateTest", "in repo dele count : "+localImageDataSource.fetchImages2().count().toString())

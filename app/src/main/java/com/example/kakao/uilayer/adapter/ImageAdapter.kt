@@ -65,12 +65,13 @@ class ImageAdapter(
             binding {
                 checkBox.setOnClickListener {
 
-                    val modifyingTargetItem = snapshot()[absoluteAdapterPosition]?.copy(isFavorite = true) ?: ItemImageUiState()
-                    snapshot()[absoluteAdapterPosition]?.isFavorite = checkBox.isChecked
-                    if (checkBox.isChecked) {
-                        onSaveImage(modifyingTargetItem)
-                    } else {
-                        onDeleteImage(modifyingTargetItem)
+                    snapshot()[absoluteAdapterPosition]?.copy(isFavorite = true)?.let { modifyingTargetItem ->
+                        snapshot()[absoluteAdapterPosition]?.isFavorite = checkBox.isChecked
+                        if (checkBox.isChecked) {
+                            onSaveImage(modifyingTargetItem)
+                        } else {
+                            onDeleteImage(modifyingTargetItem)
+                        }
                     }
 
                 }
