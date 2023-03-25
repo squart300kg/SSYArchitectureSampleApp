@@ -58,6 +58,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
                     }
                 }
 
+                // TODO: 페이징에선 필요 없게된 기능
                 launch {
                     viewModel.isLoading.collect { isLoading ->
                         binding.loadingBar.isVisible = isLoading
@@ -73,30 +74,5 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
                 }
             }
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i("lifecycleTest", "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i("lifecycleTest", "onStop")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.i("lifecycleTest", "onDestroyView")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i("lifecycleTest", "onDestroy")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.i("lifecycleTest", "onDetach")
     }
 }

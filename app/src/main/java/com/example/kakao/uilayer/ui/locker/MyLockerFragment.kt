@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.PagingData
 import com.example.kakao.R
 import com.example.kakao.databinding.MyLockerFragmentBinding
 import com.example.kakao.uilayer.adapter.ImageAdapter
@@ -41,9 +42,9 @@ class MyLockerFragment : BaseFragment<MyLockerFragmentBinding>(R.layout.my_locke
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-//                    viewModel.uiState.collect { uiState ->
-//                        imageAdapter.submitItems(uiState)
-//                    }
+                    viewModel.uiState.collect { uiState ->
+                        imageAdapter.submitData(PagingData.from(uiState))
+                    }
                 }
 
                 launch {
