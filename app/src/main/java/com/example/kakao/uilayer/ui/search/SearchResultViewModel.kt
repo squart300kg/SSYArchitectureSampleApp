@@ -35,15 +35,8 @@ class SearchResultViewModel @Inject constructor(
             getHomeImagesWithCheckedUseCase(keyWord = keyWord)
                 .cachedIn(viewModelScope)
                 .flowOn(Dispatchers.IO)
-                .map { Result.success(it) }
-                .catch { emit(Result.failure(it)) }
-                .collect { result ->
-                    result.fold(
-                        onSuccess = { receivedImages ->
-                            _uiState.update { receivedImages }
-                        },
-                        onFailure = (::showError)
-                    )
+                .collect { receivedImages ->
+                    _uiState.update { receivedImages }
                 }
         }
     }

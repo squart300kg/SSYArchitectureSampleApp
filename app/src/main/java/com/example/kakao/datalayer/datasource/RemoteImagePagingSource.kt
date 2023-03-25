@@ -88,10 +88,11 @@ class RemoteImagePagingSource @Inject constructor(
                 else nextPage + 1
             )
 
-            // TODO: 해당 에러 flow catch로 내려가면 더 좋을듯!
         } catch (e: IOException) {
             return LoadResult.Error(e)
         } catch (e: HttpException) {
+            return LoadResult.Error(e)
+        } catch (e: Exception) {
             return LoadResult.Error(e)
         }
     }

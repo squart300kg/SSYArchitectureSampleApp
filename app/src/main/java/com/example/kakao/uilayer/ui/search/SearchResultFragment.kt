@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import androidx.paging.map
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kakao.R
@@ -17,6 +18,8 @@ import com.example.kakao.uilayer.adapter.ImageAdapter
 import com.example.kakao.uilayer.adapter.ImageAdapterType
 import com.example.kakao.uilayer.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -53,25 +56,47 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
                 launch {
                     viewModel.uiState.collect { uiState ->
                         Log.i("updateTest", "frag uiState.collect adapterCount : "+imageAdapter.itemCount.toString())
-                        // TODO: save, delete시에도 notifyDataSetChanged하는 이슈 해결하기
                         imageAdapter.submitData(uiState)
                     }
                 }
 
-                // TODO: 페이징에선 필요 없게된 기능
-                launch {
-                    viewModel.isLoading.collect { isLoading ->
-                        binding.loadingBar.isVisible = isLoading
-                    }
+                launchForError { errorMessage ->
+                    Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_LONG).show()
                 }
 
-                launch {
-                    viewModel.errorMessage.collect { errorMessage ->
-                        errorMessage?.let { message ->
-                            Toast.makeText(requireActivity(), message, Toast.LENGTH_LONG).show()
-                        }
-                    }
+                launchForLoading { isLoading ->
+                    binding.loadingBar.isVisible = isLoading
                 }
+            }
+        }
+    }
+
+    private fun CoroutineScope.launchForError(showErrorMessage: (String) -> Unit) {
+        launch {
+            imageAdapter.loadStateFlow.collectLatest { loadStates ->
+                if (loadStates.refresh is LoadState.Error) {
+                    showErrorMessage("${((loadStates.refresh as LoadState.Error).error.message)}")
+                }
+            }
+        }
+        launch {
+            viewModel.errorMessage.collect { errorMessage ->
+                errorMessage?.let { message ->
+                    showErrorMessage(message)
+                }
+            }
+        }
+    }
+
+    private fun CoroutineScope.launchForLoading(setLoadingState: (Boolean) -> Unit) {
+        launch {
+            imageAdapter.loadStateFlow.collectLatest { loadStates ->
+                setLoadingState(loadStates.refresh is LoadState.Loading)
+            }
+        }
+        launch {
+            viewModel.isLoading.collect { isLoading ->
+                setLoadingState(isLoading)
             }
         }
     }
