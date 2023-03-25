@@ -7,6 +7,7 @@ import androidx.paging.PagingState
 import com.example.kakao.R
 import com.example.kakao.datalayer.api.KakaoApi
 import com.example.kakao.datalayer.model.SortType
+import com.example.kakao.datalayer.model.response.Documents
 import com.example.kakao.uilayer.model.ItemImageUiState
 import com.example.kakao.util.convertFormatTo
 import retrofit2.HttpException
@@ -39,18 +40,7 @@ class RemoteImagePagingSource @Inject constructor(
                     page = nextPage,
                     size = MAX_DOCUMENT_SIZE_FOR_IMAGE_API
                 ).also { imageApiResponse ->
-                    // TODO: 중복코드 정리하면 더 멋질듯?
-                    imageApiResponse.documents.forEach { document ->
-                        uiStatesForImageApi.add(
-                            ItemImageUiState(
-                                thumbnailUrl = document.thumbnailUrl,
-                                date = document.dateTime convertFormatTo context.resources.getString(
-                                    R.string.searchResultDateFormat),
-                                time = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultTimeFormat),
-                                isFavorite = false
-                            )
-                        )
-                    }
+                    imageApiResponse.documents convertUiStatesTo uiStatesForImageApi
                 }
             }
 
@@ -62,17 +52,7 @@ class RemoteImagePagingSource @Inject constructor(
                     page = nextPage,
                     size = MAX_DOCUMENT_SIZE_FOR_VIDEO_API
                 ).also { videoApiResponse ->
-                    videoApiResponse.documents.forEach { document ->
-                        uiStatesForVideoApi.add(
-                            ItemImageUiState(
-                                thumbnailUrl = document.thumbnail,
-                                date = document.dateTime convertFormatTo context.resources.getString(
-                                    R.string.searchResultDateFormat),
-                                time = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultTimeFormat),
-                                isFavorite = false
-                            )
-                        )
-                    }
+                    videoApiResponse.documents convertUiStatesTo uiStatesForImageApi
                 }
             }
 
@@ -98,4 +78,19 @@ class RemoteImagePagingSource @Inject constructor(
     }
 
     override fun getRefreshKey(state: PagingState<Int, ItemImageUiState>) = null
+
+    private infix fun List<Documents>.convertUiStatesTo(uiStates: MutableList<ItemImageUiState>) {
+        forEach { document ->
+            uiStates.add(
+                ItemImageUiState(
+                    thumbnailUrl = document.thumbnail,
+                    date = document.dateTime convertFormatTo context.resources.getString(
+                        R.string.searchResultDateFormat),
+                    time = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultTimeFormat),
+                    isFavorite = false
+                )
+            )
+        }
+    }
+
 }
