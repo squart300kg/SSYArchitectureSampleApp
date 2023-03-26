@@ -1,7 +1,7 @@
 package com.example.kakao.uilayer.ui.search
 
 import android.os.Bundle
-import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -35,9 +35,8 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
         super.onViewCreated(view, savedInstanceState)
 
         binding {
-            btnSearch.setOnClickListener {
-                viewModel.search("${etSearch.text}")
-            }
+
+            initSearchClickListener()
 
             rvSearchResult.apply {
                 setHasFixedSize(true)
@@ -72,6 +71,20 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
                     binding.loadingBar.isVisible = isLoading
                 }
             }
+        }
+    }
+
+    private fun SearchResultFragmentBinding.initSearchClickListener() {
+        btnSearch.setOnClickListener {
+            viewModel.search("${etSearch.text}")
+        }
+
+        binding.etSearch.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                viewModel.search("${etSearch.text}")
+                return@setOnKeyListener true
+            }
+            false
         }
     }
 

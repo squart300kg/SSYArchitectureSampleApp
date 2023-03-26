@@ -17,10 +17,13 @@
             android:layout_height="@dimen/searchHeight"
             android:padding="@dimen/searchPadding"
             android:hint="@string/searchHint"
+            android:maxLines="1"
+            android:imeOptions="actionDone"
             app:layout_constraintHorizontal_weight="7"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnSearch"/>
+            app:layout_constraintEnd_toStartOf="@id/btnSearch"
+            style="@style/CustomEditTextStyle" />
 
         <Button
             android:id="@+id/btnSearch"

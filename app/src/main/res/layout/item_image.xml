@@ -54,6 +54,7 @@
             app:layout_constraintBottom_toBottomOf="@id/ivThumbnail"
             app:layout_constraintStart_toEndOf="@id/tvDate"
             app:layout_constraintEnd_toEndOf="parent"
+            android:buttonTint="@color/black"
             android:checked="@{imageItem.favorite}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
