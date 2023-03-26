@@ -11,7 +11,10 @@ import com.example.kakao.uilayer.model.ItemImageUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -61,19 +64,19 @@ class SearchResultViewModel @Inject constructor(
     }
 
      fun deleteImageToLocal(imageUiState: ItemImageUiState, modifyingTargetIndex: Int) {
-        deleteJob?.cancel()
-        deleteJob = viewModelScope.launch {
-            imageRepository.deleteImageToLocal(imageUiState)
-                .setBaseIntermediates()
-                .collect { result ->
-                    result.fold(
-                        onSuccess = { modifySuccessModel ->
-                            _modifyingUiState.update { modifyingTargetIndex to modifySuccessModel }
-                            _modifyingUiState.update { null }
-                        },
-                        onFailure = (::showError)
-                    )
-                }
-        }
-    }
+         deleteJob?.cancel()
+         deleteJob = viewModelScope.launch {
+             imageRepository.deleteImageToLocal(imageUiState)
+                 .setBaseIntermediates()
+                 .collect { result ->
+                     result.fold(
+                         onSuccess = { modifySuccessModel ->
+                             _modifyingUiState.update { modifyingTargetIndex to modifySuccessModel }
+                             _modifyingUiState.update { null }
+                         },
+                         onFailure = (::showError)
+                     )
+                 }
+         }
+     }
 }

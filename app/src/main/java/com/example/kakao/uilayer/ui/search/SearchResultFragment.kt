@@ -49,14 +49,13 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch {
                     viewModel.homeItemUiState.collectLatest { uiState ->
-                        Log.i("updateTest", "frag uiState.collect adapterCount : "+imageAdapter.itemCount.toString())
                         imageAdapter.submitData(uiState)
                     }
                 }
 
                 launch {
-                    viewModel.modifyingUiState.collectLatest { modifyingUiState ->
-                        modifyingUiState?.let {
+                    viewModel.modifyingUiState.collect { modifyingUiState ->
+                        modifyingUiState?.let { modifyingUiState ->
                             imageAdapter.updateItem(
                                 modifyingTargetIndex = modifyingUiState.first,
                                 modifySuccessModel = modifyingUiState.second

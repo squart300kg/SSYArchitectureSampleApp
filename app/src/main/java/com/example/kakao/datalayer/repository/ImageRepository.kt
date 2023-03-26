@@ -1,18 +1,14 @@
 package com.example.kakao.datalayer.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.example.kakao.datalayer.api.KakaoApi
 import com.example.kakao.datalayer.datasource.END_PAGING_COUNT
 import com.example.kakao.datalayer.datasource.LocalImageDataSource
 import com.example.kakao.datalayer.datasource.RemoteImagePagingSource
-import com.example.kakao.datalayer.model.response.ModifySuccessModel
 import com.example.kakao.uilayer.model.ItemImageUiState
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ImageRepository @Inject constructor(
@@ -33,28 +29,12 @@ class ImageRepository @Inject constructor(
             )
         }.flow
 
-    fun localImages(): Flow<List<ItemImageUiState>> {
-        return localImageDataSource.fetchImages().map {
-            Log.i("updateTest", "in repo fetch local img : "+it.toString())
-            it
-        }
-    }
+    fun localImages() = localImageDataSource.fetchImages()
 
-    fun saveImageToLocal(imageUiState: ItemImageUiState): Flow<ModifySuccessModel> {
-        return localImageDataSource.saveImage(imageUiState).map {
-            Log.i("updateTest", "in repo save result : "+it.toString())
-            Log.i("updateTest", "in repo save count : "+localImageDataSource.fetchImages2().count().toString())
-            it
-        }
-    }
+    fun saveImageToLocal(imageUiState: ItemImageUiState)
+        = localImageDataSource.saveImage(imageUiState)
 
-    fun deleteImageToLocal(imageUiState: ItemImageUiState): Flow<ModifySuccessModel> {
-        return localImageDataSource.deleteImage(imageUiState).map {
-            Log.i("updateTest", "in repo dele result : "+it.toString())
-            Log.i("updateTest", "in repo dele count : "+localImageDataSource.fetchImages2().count().toString())
-            it
-        }
-    }
-
+    fun deleteImageToLocal(imageUiState: ItemImageUiState)
+        = localImageDataSource.deleteImage(imageUiState)
 
 }

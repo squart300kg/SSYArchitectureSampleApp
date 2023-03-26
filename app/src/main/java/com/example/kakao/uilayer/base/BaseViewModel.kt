@@ -23,7 +23,6 @@ open class BaseViewModel @Inject constructor(): ViewModel() {
     protected fun <T> Flow<T>.setBaseIntermediates(): Flow<Result<T>> {
         return onStart { _isLoading.value = true }
             .flowOn(Dispatchers.IO)
-            .debounce(3000L)
             .map { Result.success(it) }
             .catch { emit(Result.failure(it)) }
             .onCompletion { _isLoading.value = false }

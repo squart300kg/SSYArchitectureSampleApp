@@ -15,7 +15,7 @@ class GetHomeItemsWithCheckedUseCase @Inject constructor(
     // TODO: 검색어 하드코딩 지우기
     operator fun invoke(keyWord: String): Flow<PagingData<ItemImageUiState>> {
         return combine(
-            imageRepository.fetchRemoteImage("설현"),
+            imageRepository.fetchRemoteImage(keyWord),
             imageRepository.localImages()
         ) { remoteImages, localImages ->
                 remoteImages.map { remoteImage ->
