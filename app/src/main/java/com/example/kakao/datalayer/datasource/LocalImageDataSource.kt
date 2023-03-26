@@ -5,11 +5,13 @@ import android.content.SharedPreferences
 import android.content.res.Resources.NotFoundException
 import android.util.Log
 import com.example.kakao.R
+import com.example.kakao.datalayer.model.response.ModifySuccessModel
 import com.example.kakao.di.LOCAL_IMAGE_ITEMS
 import com.example.kakao.uilayer.model.ItemImageUiState
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -20,6 +22,7 @@ class LocalImageDataSource @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) {
 
+    //  TODO: 지울것
         fun fetchImages2(): List<ItemImageUiState> {
         val itemImageUiStatesJsonString = sharedPreferences.getString(LOCAL_IMAGE_ITEMS, null)
         return if (itemImageUiStatesJsonString != null) {
@@ -31,30 +34,32 @@ class LocalImageDataSource @Inject constructor(
             emptyList()
         }
     }
-    fun saveImage(imageUiState: ItemImageUiState): Flow<Unit> {
+
+    // TODO: 주석들 제거
+    fun saveImage(imageUiState: ItemImageUiState): Flow<ModifySuccessModel> {
+        val saveTargetImageUiState = imageUiState.copy(isFavorite = true)
         return fetchImages().map { localImages ->
-            if (localImages.contains(imageUiState).not()) {
-                val updatedImages = localImages.toMutableList().apply { add(imageUiState) }
+            if (localImages.contains(saveTargetImageUiState).not()) {
+                val updatedImages = localImages.toMutableList().apply { add(saveTargetImageUiState) }
                 sharedPreferences.edit().putString(LOCAL_IMAGE_ITEMS, Gson().toJson(updatedImages)).apply()
                 Log.i("updateTest", "in ds save image: "+imageUiState.toString())
                 Log.i("updateTest", "in ds save result: "+fetchImages2().toString())
+                ModifySuccessModel.SAVE_SUCCESS
             } else {
                 throw CloneNotSupportedException(context.resources.getString(R.string.ErrorDuplicatedLocalImageSelect))
             }
         }
     }
 
-    fun deleteImage(imageUiState: ItemImageUiState): Flow<Unit> {
-        return fetchImages().map { images ->
-            if (images.contains(imageUiState)) {
-                val updatedImages = images.toMutableList().apply { remove(imageUiState) }
+    fun deleteImage(imageUiState: ItemImageUiState): Flow<ModifySuccessModel> {
+        return fetchImages().map { localImages ->
+            if (localImages.contains(imageUiState)) {
+                val updatedImages = localImages.toMutableList().apply { remove(imageUiState) }
                 sharedPreferences.edit().putString(LOCAL_IMAGE_ITEMS, Gson().toJson(updatedImages)).apply()
                 Log.i("updateTest", "in ds dele : "+imageUiState.toString())
                 Log.i("updateTest", "in ds dele result: "+fetchImages2().toString())
+                ModifySuccessModel.DELETE_SUCCESS
             } else {
-                Log.i("updateTest", "in ds dele input img: "+imageUiState.toString())
-                Log.i("updateTest", "in ds dele input own imgs: "+images.toString())
-
                 throw NotFoundException(context.resources.getString(R.string.ErrorNotFoundImageSelect))
             }
         }

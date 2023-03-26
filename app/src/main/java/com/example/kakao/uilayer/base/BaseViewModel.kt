@@ -1,12 +1,9 @@
 package com.example.kakao.uilayer.base
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,12 +15,17 @@ open class BaseViewModel @Inject constructor(): ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    fun setLoading(state: Boolean) {
-        _isLoading.value = state
-    }
-
-    fun showError(exception: Throwable) {
+    protected fun showError(exception: Throwable) {
         _errorMessage.value = exception.message
         _errorMessage.value = null
+    }
+
+    protected fun <T> Flow<T>.setBaseIntermediates(): Flow<Result<T>> {
+        return onStart { _isLoading.value = true }
+            .flowOn(Dispatchers.IO)
+            .debounce(3000L)
+            .map { Result.success(it) }
+            .catch { emit(Result.failure(it)) }
+            .onCompletion { _isLoading.value = false }
     }
 }

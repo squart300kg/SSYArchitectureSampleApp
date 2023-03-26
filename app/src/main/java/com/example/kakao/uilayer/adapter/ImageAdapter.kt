@@ -1,14 +1,13 @@
 package com.example.kakao.uilayer.adapter
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.example.kakao.BR
 import com.example.kakao.R
 import com.example.kakao.databinding.ItemImageBinding
+import com.example.kakao.datalayer.model.response.ModifySuccessModel
 import com.example.kakao.uilayer.base.BaseViewHolder
 import com.example.kakao.uilayer.model.ItemImageUiState
 
@@ -19,16 +18,22 @@ enum class ImageAdapterType {
 
 class ImageAdapter(
     private val imageAdapterType: ImageAdapterType,
-    private val onSaveImage: (ItemImageUiState) -> Unit = {},
-    private val onDeleteImage: (ItemImageUiState) -> Unit = {},
-): PagingDataAdapter<ItemImageUiState, ImageAdapter.ImageViewHolder>(ImageComparator){
+    private val onSaveImage: (ItemImageUiState, Int) -> Unit = { _, _ -> },
+    private val onDeleteImage: (ItemImageUiState, Int) -> Unit = { _, _ -> },
+) : PagingDataAdapter<ItemImageUiState, ImageAdapter.ImageViewHolder>(
+    ImageComparator
+) {
 
     object ImageComparator : DiffUtil.ItemCallback<ItemImageUiState>() {
-        override fun areItemsTheSame(oldItem: ItemImageUiState, newItem: ItemImageUiState)
-                = oldItem.thumbnailUrl == newItem.thumbnailUrl
+        override fun areItemsTheSame(
+            oldItem: ItemImageUiState,
+            newItem: ItemImageUiState
+        ) = oldItem.thumbnailUrl == newItem.thumbnailUrl
 
-        override fun areContentsTheSame(oldItem: ItemImageUiState, newItem: ItemImageUiState)
-                = oldItem == newItem
+        override fun areContentsTheSame(
+            oldItem: ItemImageUiState,
+            newItem: ItemImageUiState
+        ) = oldItem == newItem
     }
 
     override fun onCreateViewHolder(
@@ -47,11 +52,19 @@ class ImageAdapter(
         holder.initClickListener()
     }
 
+    fun updateItem(modifyingTargetIndex: Int, modifySuccessModel: ModifySuccessModel) {
+        getItem(modifyingTargetIndex)?.isFavorite = modifySuccessModel.isFavorite
+    }
+
     inner class ImageViewHolder(
         itemId: Int,
         parent: ViewGroup,
         layoutRes: Int
-    ): BaseViewHolder<ItemImageUiState, ItemImageBinding>(itemId, parent, layoutRes) {
+    ) : BaseViewHolder<ItemImageUiState, ItemImageBinding>(
+        itemId,
+        parent,
+        layoutRes
+    ) {
 
         init {
             if (imageAdapterType == ImageAdapterType.MY_LOCKER) {
@@ -65,15 +78,13 @@ class ImageAdapter(
             binding {
                 checkBox.setOnClickListener {
 
-                    snapshot()[absoluteAdapterPosition]?.copy(isFavorite = true)?.let { modifyingTargetItem ->
-                        snapshot()[absoluteAdapterPosition]?.isFavorite = checkBox.isChecked
+                    getItem(absoluteAdapterPosition)?.let { modifyingTargetItem ->
                         if (checkBox.isChecked) {
-                            onSaveImage(modifyingTargetItem)
+                            onSaveImage(modifyingTargetItem, absoluteAdapterPosition)
                         } else {
-                            onDeleteImage(modifyingTargetItem)
+                            onDeleteImage(modifyingTargetItem, absoluteAdapterPosition)
                         }
                     }
-
                 }
             }
         }

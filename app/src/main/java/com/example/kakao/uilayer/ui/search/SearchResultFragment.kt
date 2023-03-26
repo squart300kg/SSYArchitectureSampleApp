@@ -10,8 +10,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
-import androidx.paging.map
-import androidx.recyclerview.widget.RecyclerView
 import com.example.kakao.R
 import com.example.kakao.databinding.SearchResultFragmentBinding
 import com.example.kakao.uilayer.adapter.ImageAdapter
@@ -47,16 +45,23 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
             }
         }
 
-
-        // TODO: 데이터바인딩 + 바인딩어댑터?
-        //  ㄴ> 만약, 상태유지시, 로딩과 에러메시지 Base로 빼는법 고민
-        //  ㄴ> 만약, 상태유지시, STARTED or RESUME 고민
         lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch {
-                    viewModel.uiState.collect { uiState ->
+                    viewModel.homeItemUiState.collectLatest { uiState ->
                         Log.i("updateTest", "frag uiState.collect adapterCount : "+imageAdapter.itemCount.toString())
                         imageAdapter.submitData(uiState)
+                    }
+                }
+
+                launch {
+                    viewModel.modifyingUiState.collectLatest { modifyingUiState ->
+                        modifyingUiState?.let {
+                            imageAdapter.updateItem(
+                                modifyingTargetIndex = modifyingUiState.first,
+                                modifySuccessModel = modifyingUiState.second
+                            )
+                        }
                     }
                 }
 

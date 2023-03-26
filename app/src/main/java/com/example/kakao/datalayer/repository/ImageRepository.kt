@@ -8,6 +8,7 @@ import com.example.kakao.datalayer.api.KakaoApi
 import com.example.kakao.datalayer.datasource.END_PAGING_COUNT
 import com.example.kakao.datalayer.datasource.LocalImageDataSource
 import com.example.kakao.datalayer.datasource.RemoteImagePagingSource
+import com.example.kakao.datalayer.model.response.ModifySuccessModel
 import com.example.kakao.uilayer.model.ItemImageUiState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -39,7 +40,7 @@ class ImageRepository @Inject constructor(
         }
     }
 
-    fun saveImageToLocal(imageUiState: ItemImageUiState): Flow<Unit> {
+    fun saveImageToLocal(imageUiState: ItemImageUiState): Flow<ModifySuccessModel> {
         return localImageDataSource.saveImage(imageUiState).map {
             Log.i("updateTest", "in repo save result : "+it.toString())
             Log.i("updateTest", "in repo save count : "+localImageDataSource.fetchImages2().count().toString())
@@ -47,7 +48,7 @@ class ImageRepository @Inject constructor(
         }
     }
 
-    fun deleteImageToLocal(imageUiState: ItemImageUiState): Flow<Unit> {
+    fun deleteImageToLocal(imageUiState: ItemImageUiState): Flow<ModifySuccessModel> {
         return localImageDataSource.deleteImage(imageUiState).map {
             Log.i("updateTest", "in repo dele result : "+it.toString())
             Log.i("updateTest", "in repo dele count : "+localImageDataSource.fetchImages2().count().toString())

@@ -36,11 +36,10 @@ class MyLockerFragment : BaseFragment<MyLockerFragmentBinding>(R.layout.my_locke
             }
         }
 
-        // TODO: 데이터바인딩 + 바인딩어댑터?
-        //  ㄴ> 만약, 상태유지시, 로딩과 에러메시지 Base로 빼는법 고민
-        //  ㄴ> 만약, 상태유지시, STARTED or RESUME 고민
+        viewModel.fetchLocalImages()
+
         lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch {
                     viewModel.uiState.collect { uiState ->
                         imageAdapter.submitData(PagingData.from(uiState))
