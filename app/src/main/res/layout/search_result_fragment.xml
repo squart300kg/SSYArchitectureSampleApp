@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:theWarsOfStar="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="searchVm"
+            type="com.example.kakao.uilayer.ui.search.SearchResultViewModel" />
+        <variable
+            name="imageAdt"
+            type="com.example.kakao.uilayer.adapter.ImageAdapter" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingStart="@dimen/contentHorizontalPadding"
         android:paddingEnd="@dimen/contentHorizontalPadding"
-        theWarsOfStar:context=".uilayer.ui.search.SearchResultFragment">
+        errorMessageFromAdt="@{imageAdt.loadStateFlow}"
+        errorMessageFromVm="@{searchVm.errorMessage}"
+        tools:context=".uilayer.ui.search.SearchResultFragment">
 
         <EditText
             android:id="@+id/etSearch"
@@ -43,6 +53,8 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/etSearch"
             app:layout_constraintBottom_toBottomOf="parent"
+            submitImageData="@{searchVm.homeItemUiState}"
+            modifyItem="@{searchVm.modifyingUiState}"
             tools:listitem="@layout/item_image"/>
 
         <ProgressBar
@@ -52,7 +64,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            loadingStateFromAdt="@{imageAdt.loadStateFlow}"
+            loadingStateFromVm="@{searchVm.isLoading}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

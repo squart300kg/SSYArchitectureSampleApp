@@ -7,6 +7,7 @@ import com.example.kakao.di.LOCAL_IMAGE_ITEMS
 import com.example.kakao.uilayer.model.ItemImageUiState
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map

@@ -35,41 +35,14 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
         super.onViewCreated(view, savedInstanceState)
 
         binding {
+            searchVm = viewModel
+            imageAdt = imageAdapter
 
             initSearchClickListener()
 
             rvSearchResult.apply {
                 setHasFixedSize(true)
                 adapter = imageAdapter
-            }
-        }
-
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                launch {
-                    viewModel.homeItemUiState.collectLatest { uiState ->
-                        imageAdapter.submitData(uiState)
-                    }
-                }
-
-                launch {
-                    viewModel.modifyingUiState.collect { modifyingUiState ->
-                        modifyingUiState?.let { modifyingUiState ->
-                            imageAdapter.updateItem(
-                                modifyingTargetIndex = modifyingUiState.first,
-                                modifySuccessModel = modifyingUiState.second
-                            )
-                        }
-                    }
-                }
-
-                launchForError { errorMessage ->
-                    Toast.makeText(requireActivity(), errorMessage, Toast.LENGTH_LONG).show()
-                }
-
-                launchForLoading { isLoading ->
-                    binding.loadingBar.isVisible = isLoading
-                }
             }
         }
     }
@@ -85,36 +58,6 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
                 return@setOnKeyListener true
             }
             false
-        }
-    }
-
-    private fun CoroutineScope.launchForError(showErrorMessage: (String) -> Unit) {
-        launch {
-            imageAdapter.loadStateFlow.collectLatest { loadStates ->
-                if (loadStates.refresh is LoadState.Error) {
-                    showErrorMessage("${((loadStates.refresh as LoadState.Error).error.message)}")
-                }
-            }
-        }
-        launch {
-            viewModel.errorMessage.collect { errorMessage ->
-                errorMessage?.let { message ->
-                    showErrorMessage(message)
-                }
-            }
-        }
-    }
-
-    private fun CoroutineScope.launchForLoading(setLoadingState: (Boolean) -> Unit) {
-        launch {
-            imageAdapter.loadStateFlow.collectLatest { loadStates ->
-                setLoadingState(loadStates.refresh is LoadState.Loading)
-            }
-        }
-        launch {
-            viewModel.isLoading.collect { isLoading ->
-                setLoadingState(isLoading)
-            }
         }
     }
 }

@@ -10,6 +10,7 @@ import com.example.kakao.datalayer.model.SortType
 import com.example.kakao.datalayer.model.response.Documents
 import com.example.kakao.uilayer.model.ItemImageUiState
 import com.example.kakao.util.convertFormatTo
+import kotlinx.coroutines.delay
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
