@@ -3,7 +3,7 @@
     <data>
         <variable
             name="imageItem"
-            type="com.example.kakao.uilayer.model.ItemImageUiState" />
+            type="com.example.kakao.ui.model.SearchResultItem" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout 
         xmlns:android="http://schemas.android.com/apk/res/android"

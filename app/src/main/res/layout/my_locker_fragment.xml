@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        theWarsOfStar:context=".uilayer.ui.locker.MyLockerFragment">
+        theWarsOfStar:context=".ui.ui.locker.MyLockerFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMyLocker"
