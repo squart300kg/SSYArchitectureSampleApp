@@ -1,6 +1,7 @@
 package com.example.kakao.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.example.kakao.data.api.KakaoApi
@@ -9,6 +10,7 @@ import com.example.kakao.data.datasource.LocalImageDataSource
 import com.example.kakao.data.datasource.RemoteImagePagingSource
 import com.example.kakao.ui.model.SearchResultItem
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ImageRepository @Inject constructor(
@@ -29,12 +31,12 @@ class ImageRepository @Inject constructor(
             )
         }.flow
 
-    fun localImages() = localImageDataSource.fetchImages()
+    val localImages = localImageDataSource.fetchImages()
 
-    fun saveImageToLocal(imageUiState: SearchResultItem)
+    suspend fun saveImageToLocal(imageUiState: SearchResultItem)
         = localImageDataSource.saveImage(imageUiState)
 
-    fun deleteImageToLocal(imageUiState: SearchResultItem)
+    suspend fun deleteImageToLocal(imageUiState: SearchResultItem)
         = localImageDataSource.deleteImage(imageUiState)
 
 }

@@ -15,7 +15,7 @@ class GetHomeItemsWithCheckedUseCase @Inject constructor(
     operator fun invoke(keyWord: String): Flow<PagingData<SearchResultItem>> {
         return combine(
             imageRepository.fetchRemoteImage(keyWord),
-            imageRepository.localImages()
+            imageRepository.localImages
         ) { remoteImages, localImages ->
                 remoteImages.map { remoteImage ->
                     val duplicateImage = localImages.find { localImage -> localImage.thumbnailUrl == remoteImage.thumbnailUrl }

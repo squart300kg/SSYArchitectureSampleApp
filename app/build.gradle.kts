@@ -55,7 +55,7 @@ android {
 
 dependencies {
 
-    implementation("com.airbnb.android:lottie:5.2.0")
+    implementation ("androidx.datastore:datastore-core:1.0.0")
 
     // NETWORK
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

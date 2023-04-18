@@ -18,8 +18,8 @@ enum class ImageAdapterType {
 
 class ImageAdapter(
     private val imageAdapterType: ImageAdapterType,
-    private val onSaveImage: (SearchResultItem, Int) -> Unit = { _, _ -> },
-    private val onDeleteImage: (SearchResultItem, Int) -> Unit = { _, _ -> },
+    private val onSaveImage: (SearchResultItem) -> Unit = {  },
+    private val onDeleteImage: (SearchResultItem) -> Unit = {  },
 ) : PagingDataAdapter<SearchResultItem, ImageAdapter.ImageViewHolder>(
     ImageComparator
 ) {
@@ -80,9 +80,9 @@ class ImageAdapter(
 
                     getItem(absoluteAdapterPosition)?.let { modifyingTargetItem ->
                         if (checkBox.isChecked) {
-                            onSaveImage(modifyingTargetItem, absoluteAdapterPosition)
+                            onSaveImage(modifyingTargetItem)
                         } else {
-                            onDeleteImage(modifyingTargetItem, absoluteAdapterPosition)
+                            onDeleteImage(modifyingTargetItem)
                         }
                     }
                 }

@@ -8,10 +8,8 @@ import com.example.kakao.data.model.response.ModifySuccessModel
 import com.example.kakao.data.repository.ImageRepository
 import com.example.kakao.domain.GetHomeItemsWithCheckedUseCase
 import com.example.kakao.ui.base.BaseViewModel
-import com.example.kakao.ui.model.Result2
 import com.example.kakao.ui.model.SearchResultItem
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -21,14 +19,15 @@ const val SEARCH_KEY_WORD_KEY = "SEARCH_KEY_WORD"
 
 @HiltViewModel
 class SearchResultViewModel @Inject constructor(
-    private val getHomeItemsWithCheckedUseCase: GetHomeItemsWithCheckedUseCase,
+    private val getSearchResultItemsWithChecked: GetHomeItemsWithCheckedUseCase,
     private val imageRepository: ImageRepository,
     private val savedStateHandle: SavedStateHandle
 ): BaseViewModel() {
 
     private val _searchKeyWord = savedStateHandle.getStateFlow(SEARCH_KEY_WORD_KEY, "")
+    private val _updateTriggered = MutableStateFlow(false)
     val uiState = _searchKeyWord
-        .flatMapLatest { getHomeItemsWithCheckedUseCase(it) }
+        .flatMapLatest { getSearchResultItemsWithChecked(it) }
         .cachedIn(viewModelScope)
         .stateIn(
             scope = viewModelScope,
@@ -39,44 +38,21 @@ class SearchResultViewModel @Inject constructor(
     private val _modifyingUiState = MutableStateFlow<Pair<Int, ModifySuccessModel>?>(null)
     val modifyingUiState = _modifyingUiState.asStateFlow()
 
-    var saveJob: Job? = null
-    var deleteJob: Job? = null
-
     fun search(keyWord: String) {
         savedStateHandle[SEARCH_KEY_WORD_KEY] = keyWord
     }
 
-    fun saveImageToLocal(imageUiState: SearchResultItem, modifyingTargetIndex: Int) {
-        saveJob?.cancel()
-        saveJob = viewModelScope.launch {
+    fun saveImageToLocal(imageUiState: SearchResultItem) {
+        viewModelScope.launch {
             imageRepository.saveImageToLocal(imageUiState)
-                .setBaseIntermediates()
-                .collect { result ->
-                    result.fold(
-                        onSuccess = { modifySuccessModel ->
-                            _modifyingUiState.update { modifyingTargetIndex to modifySuccessModel }
-                            _modifyingUiState.update { null }
-                        },
-                        onFailure = (::showError)
-                    )
-                }
+            _updateTriggered.value = true
         }
     }
 
-     fun deleteImageToLocal(imageUiState: SearchResultItem, modifyingTargetIndex: Int) {
-         deleteJob?.cancel()
-         deleteJob = viewModelScope.launch {
+     fun deleteImageToLocal(imageUiState: SearchResultItem) {
+         viewModelScope.launch {
              imageRepository.deleteImageToLocal(imageUiState)
-                 .setBaseIntermediates()
-                 .collect { result ->
-                     result.fold(
-                         onSuccess = { modifySuccessModel ->
-                             _modifyingUiState.update { modifyingTargetIndex to modifySuccessModel }
-                             _modifyingUiState.update { null }
-                         },
-                         onFailure = (::showError)
-                     )
-                 }
+             _updateTriggered.value = true
          }
      }
 }
