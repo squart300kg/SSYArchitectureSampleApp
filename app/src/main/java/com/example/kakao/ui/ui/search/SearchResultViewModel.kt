@@ -5,12 +5,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.kakao.data.model.response.ModifySuccessModel
-import com.example.kakao.data.repository.ImageRepository
+import com.example.kakao.data.repository.SearchResultRepository
 import com.example.kakao.domain.GetHomeItemsWithCheckedUseCase
 import com.example.kakao.ui.base.BaseViewModel
 import com.example.kakao.ui.model.SearchResultItem
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +19,7 @@ const val SEARCH_KEY_WORD_KEY = "SEARCH_KEY_WORD"
 @HiltViewModel
 class SearchResultViewModel @Inject constructor(
     private val getSearchResultItemsWithChecked: GetHomeItemsWithCheckedUseCase,
-    private val imageRepository: ImageRepository,
+    private val searchResultRepository: SearchResultRepository,
     private val savedStateHandle: SavedStateHandle
 ): BaseViewModel() {
 
@@ -42,16 +41,16 @@ class SearchResultViewModel @Inject constructor(
         savedStateHandle[SEARCH_KEY_WORD_KEY] = keyWord
     }
 
-    fun saveImageToLocal(imageUiState: SearchResultItem) {
+    fun saveSearchResultToLocal(searchResultItem: SearchResultItem) {
         viewModelScope.launch {
-            imageRepository.saveImageToLocal(imageUiState)
+            searchResultRepository.saveSearchResultModel(searchResultItem)
             _updateTriggered.value = true
         }
     }
 
-     fun deleteImageToLocal(imageUiState: SearchResultItem) {
+     fun deleteSearchResultToLocal(searchResultItem: SearchResultItem) {
          viewModelScope.launch {
-             imageRepository.deleteImageToLocal(imageUiState)
+             searchResultRepository.deleteSearchResultModels(searchResultItem)
              _updateTriggered.value = true
          }
      }

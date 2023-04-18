@@ -1,7 +1,7 @@
 package com.example.kakao.ui.ui.locker
 
 import androidx.lifecycle.viewModelScope
-import com.example.kakao.data.repository.ImageRepository
+import com.example.kakao.data.repository.SearchResultRepository
 import com.example.kakao.ui.base.BaseViewModel
 import com.example.kakao.ui.model.SearchResultItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MyLockerViewModel @Inject constructor(
-    private val imageRepository: ImageRepository,
+    private val searchResultRepository: SearchResultRepository,
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow<List<SearchResultItem>>(emptyList())
@@ -19,7 +19,7 @@ class MyLockerViewModel @Inject constructor(
 
     fun fetchLocalImages() {
         viewModelScope.launch {
-            imageRepository.localImages
+            searchResultRepository.localImages
                 .setBaseIntermediates()
                 .collect { result ->
                     result.fold(
