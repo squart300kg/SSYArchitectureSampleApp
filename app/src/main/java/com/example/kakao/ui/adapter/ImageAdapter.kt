@@ -18,8 +18,7 @@ enum class ImageAdapterType {
 
 class ImageAdapter(
     private val imageAdapterType: ImageAdapterType,
-    private val onSaveImage: (SearchResultItem) -> Unit = {  },
-    private val onDeleteImage: (SearchResultItem) -> Unit = {  },
+    private val onUpdateSearchResultModelToLocal: (SearchResultItem) -> Unit = {},
 ) : PagingDataAdapter<SearchResultItem, ImageAdapter.ImageViewHolder>(
     ImageComparator
 ) {
@@ -52,10 +51,6 @@ class ImageAdapter(
         holder.initClickListener()
     }
 
-    fun updateItem(modifyingTargetIndex: Int, modifySuccessModel: ModifySuccessModel) {
-        getItem(modifyingTargetIndex)?.isFavorite = modifySuccessModel.isFavorite
-    }
-
     inner class ImageViewHolder(
         itemId: Int,
         parent: ViewGroup,
@@ -79,11 +74,8 @@ class ImageAdapter(
                 checkBox.setOnClickListener {
 
                     getItem(absoluteAdapterPosition)?.let { modifyingTargetItem ->
-                        if (checkBox.isChecked) {
-                            onSaveImage(modifyingTargetItem)
-                        } else {
-                            onDeleteImage(modifyingTargetItem)
-                        }
+                        snapshot()[absoluteAdapterPosition]?.isFavorite = checkBox.isChecked
+                        onUpdateSearchResultModelToLocal(modifyingTargetItem)
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package com.example.kakao.domain
 
+import android.util.Log
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.example.kakao.data.repository.SearchResultRepository
@@ -15,16 +16,19 @@ class GetHomeItemsWithCheckedUseCase @Inject constructor(
     operator fun invoke(keyWord: String): Flow<PagingData<SearchResultItem>> {
         return combine(
             searchResultRepository.fetchRemoteSearchResultModels(keyWord),
-            searchResultRepository.localImages
-        ) { remoteImages, localImages ->
-                remoteImages.map { remoteImage ->
-                    val duplicateImage = localImages.find { localImage -> localImage.thumbnailUrl == remoteImage.thumbnailUrl }
-                    if (duplicateImage != null) {
-                        remoteImage.copy(isFavorite = true)
-                    } else {
-                        remoteImage
-                    }
+            searchResultRepository.localSearchResultModels
+        ) { remoteSearchResultModels, localSearchResultModels ->
+            Log.i("usecaseTest", "hello")
+            remoteSearchResultModels.map { remoteImage ->
+                val duplicateSearchResultModel =
+                    localSearchResultModels.find { localImage -> localImage.thumbnailUrl == remoteImage.thumbnailUrl }
+
+                if (duplicateSearchResultModel != null) {
+                    remoteImage.copy(isFavorite = true)
+                } else {
+                    remoteImage
                 }
             }
+        }
     }
 }

@@ -54,7 +54,6 @@
             app:layout_constraintTop_toBottomOf="@id/etSearch"
             app:layout_constraintBottom_toBottomOf="parent"
             submitImageData="@{searchVm.uiState}"
-            modifyItem="@{searchVm.modifyingUiState}"
             tools:listitem="@layout/item_image"/>
 
         <ProgressBar

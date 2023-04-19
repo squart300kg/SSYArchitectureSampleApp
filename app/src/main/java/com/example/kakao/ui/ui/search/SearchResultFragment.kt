@@ -17,8 +17,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
     private val viewModel: SearchResultViewModel by viewModels()
     private val imageAdapter by lazy { ImageAdapter(
         imageAdapterType = ImageAdapterType.SEARCH_RESULT,
-        onSaveImage = (viewModel::saveSearchResultToLocal),
-        onDeleteImage = (viewModel::deleteSearchResultToLocal)
+        onUpdateSearchResultModelToLocal = (viewModel::updateSearchResultToLocal),
         )
     }
 

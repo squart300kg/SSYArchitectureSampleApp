@@ -1,5 +1,6 @@
 package com.example.kakao.ui.ext
 
+import android.util.Log
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 @BindingAdapter("errorMessageFromAdt", "errorMessageFromVm")
 fun ConstraintLayout.showErrorMessage(
     adtMessage: Flow<CombinedLoadStates>,
-    vmMessage: StateFlow<String?>
+    vmMessage: StateFlow<String?>,
 ) {
     repeatOnResumeLifecycle {
         launch {

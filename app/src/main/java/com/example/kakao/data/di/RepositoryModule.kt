@@ -2,7 +2,7 @@ package com.example.kakao.data.di
 
 import android.content.Context
 import com.example.kakao.data.api.KakaoApi
-import com.example.kakao.data.datasource.LocalImageDataSource
+import com.example.kakao.data.datasource.LocalSearchResultDataSource
 import com.example.kakao.data.repository.SearchResultRepository
 import dagger.Module
 import dagger.Provides
@@ -20,11 +20,11 @@ object RepositoryModule {
     fun provideImageRepository(
         @ApplicationContext context: Context,
         kakaoApi: KakaoApi,
-        localImageDataSource: LocalImageDataSource
+        localSearchResultDataSource: LocalSearchResultDataSource
     ): SearchResultRepository = SearchResultRepository(
         context = context,
         kakaoApi = kakaoApi,
-        localImageDataSource = localImageDataSource
+        localSearchResultDataSource = localSearchResultDataSource
     )
 
 }

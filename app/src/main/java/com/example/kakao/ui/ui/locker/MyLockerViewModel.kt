@@ -19,7 +19,7 @@ class MyLockerViewModel @Inject constructor(
 
     fun fetchLocalImages() {
         viewModelScope.launch {
-            searchResultRepository.localImages
+            searchResultRepository.localSearchResultModels
                 .setBaseIntermediates()
                 .collect { result ->
                     result.fold(
