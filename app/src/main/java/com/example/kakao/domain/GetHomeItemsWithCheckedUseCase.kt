@@ -3,20 +3,20 @@ package com.example.kakao.domain
 import android.util.Log
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.example.kakao.data.repository.SearchResultRepository
+import com.example.kakao.data.repository.SearchResultRepositoryImpl
 import com.example.kakao.ui.model.SearchResultItem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 class GetHomeItemsWithCheckedUseCase @Inject constructor(
-    private val searchResultRepository: SearchResultRepository
+    private val searchResultRepositoryImpl: SearchResultRepositoryImpl
 ) {
 
     operator fun invoke(keyWord: String): Flow<PagingData<SearchResultItem>> {
         return combine(
-            searchResultRepository.fetchRemoteSearchResultModels(keyWord),
-            searchResultRepository.localSearchResultModels
+            searchResultRepositoryImpl.fetchRemoteSearchResultModels(keyWord),
+            searchResultRepositoryImpl.localSearchResultModels
         ) { remoteSearchResultModels, localSearchResultModels ->
             Log.i("usecaseTest", "hello")
             remoteSearchResultModels.map { remoteImage ->

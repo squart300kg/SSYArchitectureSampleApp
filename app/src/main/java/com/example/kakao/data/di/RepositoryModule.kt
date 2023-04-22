@@ -1,13 +1,12 @@
 package com.example.kakao.data.di
 
-import android.content.Context
-import com.example.kakao.data.api.KakaoApi
-import com.example.kakao.data.datasource.LocalSearchResultDataSource
+import com.example.kakao.data.datasource.LocalSearchResultDataSourceImpl
+import com.example.kakao.data.datasource.RemoteSearchResultPagingSourceImpl
 import com.example.kakao.data.repository.SearchResultRepository
+import com.example.kakao.data.repository.SearchResultRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -18,13 +17,11 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideImageRepository(
-        @ApplicationContext context: Context,
-        kakaoApi: KakaoApi,
-        localSearchResultDataSource: LocalSearchResultDataSource
-    ): SearchResultRepository = SearchResultRepository(
-        context = context,
-        kakaoApi = kakaoApi,
-        localSearchResultDataSource = localSearchResultDataSource
+        localSearchResultDataSource: LocalSearchResultDataSourceImpl,
+        remoteImagePagingSource: RemoteSearchResultPagingSourceImpl
+    ): SearchResultRepository = SearchResultRepositoryImpl(
+        localSearchResultDataSource = localSearchResultDataSource,
+        remoteImagePagingSource = remoteImagePagingSource
     )
 
 }

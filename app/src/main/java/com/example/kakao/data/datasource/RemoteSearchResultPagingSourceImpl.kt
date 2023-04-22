@@ -1,7 +1,6 @@
 package com.example.kakao.data.datasource
 
 import android.content.Context
-import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.kakao.R
 import com.example.kakao.data.api.KakaoApi
@@ -9,6 +8,7 @@ import com.example.kakao.data.model.SortType
 import com.example.kakao.data.model.response.Documents
 import com.example.kakao.ui.model.SearchResultItem
 import com.example.kakao.util.convertFormatTo
+import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -21,17 +21,16 @@ val END_PAGING_COUNT = max(MAX_PAGE_COUNT_FOR_IMAGE_API, MAX_PAGE_COUNT_FOR_VIDE
 const val MAX_DOCUMENT_SIZE_FOR_IMAGE_API = 80
 const val MAX_DOCUMENT_SIZE_FOR_VIDEO_API = 30
 
-class RemoteImagePagingSource @Inject constructor(
+class RemoteSearchResultPagingSourceImpl @Inject constructor(
     private val kakaoApi: KakaoApi,
-    private val context: Context,
-    private val keyWord: String,
-): PagingSource<Int, SearchResultItem>() {
+    @ApplicationContext private val context: Context,
+): RemoteSearchResultPagingSource() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SearchResultItem> {
         try {
             val nextPage = params.key ?: 1
 
-            val uiStatesForImageApi = mutableListOf<SearchResultItem>()
+            val searchResultForImageApi = mutableListOf<SearchResultItem>()
             if (nextPage in 1..MAX_PAGE_COUNT_FOR_IMAGE_API) {
                 kakaoApi.fetchImages(
                     keyWord = keyWord,
@@ -39,11 +38,11 @@ class RemoteImagePagingSource @Inject constructor(
                     page = nextPage,
                     size = MAX_DOCUMENT_SIZE_FOR_IMAGE_API
                 ).also { imageApiResponse ->
-                    imageApiResponse.documents convertUiStatesTo uiStatesForImageApi
+                    imageApiResponse.documents convertUiStatesTo searchResultForImageApi
                 }
             }
 
-            val uiStatesForVideoApi = mutableListOf<SearchResultItem>()
+            val searchResultForVideoApi = mutableListOf<SearchResultItem>()
             if (nextPage in 1..MAX_PAGE_COUNT_FOR_VIDEO_API) {
                 kakaoApi.fetchVideos(
                     keyWord = keyWord,
@@ -51,11 +50,11 @@ class RemoteImagePagingSource @Inject constructor(
                     page = nextPage,
                     size = MAX_DOCUMENT_SIZE_FOR_VIDEO_API
                 ).also { videoApiResponse ->
-                    videoApiResponse.documents convertUiStatesTo uiStatesForImageApi
+                    videoApiResponse.documents convertUiStatesTo searchResultForImageApi
                 }
             }
 
-            val resultUiState = (uiStatesForImageApi + uiStatesForVideoApi)
+            val resultUiState = (searchResultForImageApi + searchResultForVideoApi)
                 .distinctBy(SearchResultItem::thumbnailUrl)
                 .sortedWith(compareByDescending(SearchResultItem::date)
                     .thenByDescending(SearchResultItem::time))
