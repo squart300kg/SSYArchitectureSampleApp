@@ -29,9 +29,9 @@ class LocalSearchResultDataSourceImpl @Inject constructor(
 
     private fun fetchSearchResultModels(): List<SearchResultItem> {
         val itemImageUiStatesJsonString = sharedPreferences.getString(LOCAL_IMAGE_ITEMS, null)
-        val itemImageUiStatesModels: List<SearchResultItem> = Gson().fromJson(itemImageUiStatesJsonString,
+        val itemImageUiStatesModels: List<SearchResultItem>? = Gson().fromJson(itemImageUiStatesJsonString,
             object : TypeToken<List<SearchResultItem>>() {}.type
         )
-        return itemImageUiStatesModels
+        return if (itemImageUiStatesModels.isNullOrEmpty()) emptyList() else itemImageUiStatesModels
     }
 }
