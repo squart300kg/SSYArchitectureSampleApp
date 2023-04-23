@@ -29,14 +29,14 @@
             android:padding="@dimen/searchPadding"
             android:hint="@string/searchHint"
             android:maxLines="1"
-            android:background="@drawable/box_border"
+            android:textColorHint="@color/grey"
+            android:background="@drawable/border_search_et"
             android:imeOptions="actionDone"
             android:layout_marginEnd="@dimen/searchPadding"
             app:layout_constraintHorizontal_weight="8"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btnSearch"
-            style="@style/CustomEditTextStyle" />
+            app:layout_constraintEnd_toStartOf="@id/btnSearch" />
 
         <Button
             android:id="@+id/btnSearch"
@@ -44,7 +44,7 @@
             android:layout_height="@dimen/searchHeight"
             android:text="@string/search"
             android:gravity="center"
-            android:background="@color/orange"
+            android:background="@drawable/border_search_btn"
             app:layout_constraintHorizontal_weight="2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/etSearch"
@@ -65,6 +65,7 @@
             android:id="@+id/loadingBar"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:indeterminateTint="@color/orange"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

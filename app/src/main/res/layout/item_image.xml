@@ -65,8 +65,9 @@
             app:layout_constraintBottom_toBottomOf="@id/ivThumbnail"
             app:layout_constraintStart_toEndOf="@id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"
-            android:buttonTint="@color/black"
-            android:checked="@{searchItem.favorite}" />
+            android:buttonTint="@color/orange"
+            android:checked="@{searchItem.favorite}"
+            />
 
         <View
             android:id="@+id/v_devinder"
