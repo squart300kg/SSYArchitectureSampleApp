@@ -10,10 +10,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@BindingAdapter("loadingStateFromAdt", "loadingStateFromVm")
+@BindingAdapter("loadingStateFromAdt")
 fun ProgressBar.loadProgressBar(
     loadStateFromAdt: Flow<CombinedLoadStates>,
-    loadStateFromVm: StateFlow<Boolean>
 ) {
     repeatOnResumeLifecycle {
         launch {
@@ -21,11 +20,5 @@ fun ProgressBar.loadProgressBar(
                 isVisible = loadStates.refresh is LoadState.Loading
             }
         }
-        launch {
-            loadStateFromVm.collectLatest { loadState ->
-                isVisible = loadState
-            }
-        }
-
     }
 }

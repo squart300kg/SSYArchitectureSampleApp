@@ -16,7 +16,7 @@ class LocalSearchResultDataSourceImpl @Inject constructor(
         val searchResultModels = fetchSearchResultModels().toMutableSet()
 
         val updatedImages = if (searchResultItem in searchResultModels) {
-            searchResultModels.apply { add(searchResultItem.copy()) }
+            searchResultModels.apply { remove(searchResultItem.copy()) }
         } else {
             searchResultModels.apply { add(searchResultItem.copy(isFavorite = true)) }
         }

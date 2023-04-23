@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import com.example.kakao.BR
 import com.example.kakao.R
 import com.example.kakao.databinding.ItemImageBinding
-import com.example.kakao.data.model.response.ModifySuccessModel
 import com.example.kakao.ui.base.BaseViewHolder
 import com.example.kakao.ui.model.SearchResultItem
 
@@ -16,10 +15,10 @@ enum class ImageAdapterType {
     MY_LOCKER
 }
 
-class ImageAdapter(
+class SearchResultAdapter(
     private val imageAdapterType: ImageAdapterType,
     private val onUpdateSearchResultModelToLocal: (SearchResultItem) -> Unit = {},
-) : PagingDataAdapter<SearchResultItem, ImageAdapter.ImageViewHolder>(
+) : PagingDataAdapter<SearchResultItem, SearchResultAdapter.ImageViewHolder>(
     ImageComparator
 ) {
 

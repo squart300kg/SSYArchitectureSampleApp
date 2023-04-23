@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:theWarsOfStar="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="lockerVm"
+            type="com.example.kakao.ui.ui.locker.MyLockerViewModel" />
+        <variable
+            name="searchResultAdt"
+            type="com.example.kakao.ui.adapter.SearchResultAdapter" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/contentHorizontalPadding"
-        theWarsOfStar:context=".ui.ui.locker.MyLockerFragment">
+        errorMessageFromAdt="@{searchResultAdt.loadStateFlow}"
+        errorMessageFromVm="@{lockerVm.errorMessage}"
+        tools:context=".ui.ui.locker.MyLockerFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMyLocker"
@@ -16,16 +25,19 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/item_image"/>
+            tools:listitem="@layout/item_image"
+            submitImageData="@{lockerVm.uiState}"/>
 
         <ProgressBar
             android:id="@+id/loadingBar"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:indeterminateTint="@color/orange"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            loadingStateFromAdt="@{searchResultAdt.loadStateFlow}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

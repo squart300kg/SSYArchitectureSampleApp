@@ -1,6 +1,8 @@
 package com.example.kakao.ui.ui.locker
 
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.kakao.data.repository.SearchResultRepository
 import com.example.kakao.ui.base.BaseViewModel
 import com.example.kakao.ui.model.SearchResultItem
@@ -14,22 +16,13 @@ class MyLockerViewModel @Inject constructor(
     private val searchResultRepository: SearchResultRepository,
 ) : BaseViewModel() {
 
-    private val _uiState = MutableStateFlow<List<SearchResultItem>>(emptyList())
-    val uiState = _uiState.asStateFlow()
+    val uiState = searchResultRepository.localSearchResultModels
+        .map { PagingData.from(it) }
+        .cachedIn(viewModelScope)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(1000L),
+            initialValue = PagingData.empty()
 
-    fun fetchLocalImages() {
-        viewModelScope.launch {
-            searchResultRepository.localSearchResultModels
-                .setBaseIntermediates()
-                .collect { result ->
-                    result.fold(
-                        onSuccess = { localItems ->
-                            _uiState.update { localItems }
-                        },
-                        onFailure = (::showError)
-                    )
-                }
-        }
-    }
-
+        )
 }

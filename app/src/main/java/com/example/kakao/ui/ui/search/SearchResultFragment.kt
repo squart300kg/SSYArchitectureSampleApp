@@ -6,7 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.example.kakao.R
 import com.example.kakao.databinding.SearchResultFragmentBinding
-import com.example.kakao.ui.adapter.ImageAdapter
+import com.example.kakao.ui.adapter.SearchResultAdapter
 import com.example.kakao.ui.adapter.ImageAdapterType
 import com.example.kakao.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.search_result_fragment) {
 
     private val viewModel: SearchResultViewModel by viewModels()
-    private val imageAdapter by lazy { ImageAdapter(
+    private val searchResultAdapter by lazy { SearchResultAdapter(
         imageAdapterType = ImageAdapterType.SEARCH_RESULT,
         onUpdateSearchResultModelToLocal = (viewModel::updateSearchResultToLocal),
         )
@@ -26,13 +26,13 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
 
         binding {
             searchVm = viewModel
-            imageAdt = imageAdapter
+            imageAdt = searchResultAdapter
 
             initSearchClickListener()
 
             rvSearchResult.apply {
                 setHasFixedSize(true)
-                adapter = imageAdapter
+                adapter = searchResultAdapter
             }
         }
     }

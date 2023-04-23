@@ -3,7 +3,7 @@ package com.example.kakao.ui.ext
 import androidx.databinding.BindingAdapter
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kakao.ui.adapter.ImageAdapter
+import com.example.kakao.ui.adapter.SearchResultAdapter
 import com.example.kakao.ui.model.SearchResultItem
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun RecyclerView.submitImageData(uiStateFlow: StateFlow<PagingData<SearchResultItem>>) {
     repeatOnResumeLifecycle {
         uiStateFlow.collectLatest {
-            val adapter = adapter as ImageAdapter
+            val adapter = adapter as SearchResultAdapter
             adapter.submitData(it)
         }
     }

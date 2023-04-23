@@ -9,7 +9,7 @@
             type="com.example.kakao.ui.ui.search.SearchResultViewModel" />
         <variable
             name="imageAdt"
-            type="com.example.kakao.ui.adapter.ImageAdapter" />
+            type="com.example.kakao.ui.adapter.SearchResultAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,8 +58,8 @@
             android:layout_marginTop="@dimen/contentHorizontalPadding"
             app:layout_constraintTop_toBottomOf="@id/etSearch"
             app:layout_constraintBottom_toBottomOf="parent"
-            submitImageData="@{searchVm.uiState}"
-            tools:listitem="@layout/item_image"/>
+            tools:listitem="@layout/item_image"
+            submitImageData="@{searchVm.uiState}" />
 
         <ProgressBar
             android:id="@+id/loadingBar"
@@ -70,8 +70,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            loadingStateFromAdt="@{imageAdt.loadStateFlow}"
-            loadingStateFromVm="@{searchVm.isLoading}"/>
+            loadingStateFromAdt="@{imageAdt.loadStateFlow}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
