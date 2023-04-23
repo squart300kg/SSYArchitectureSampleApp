@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.example.kakao.R
 import com.example.kakao.data.api.KakaoApi
 import com.example.kakao.data.model.SortType
-import com.example.kakao.data.model.response.Documents
+import com.example.kakao.data.model.response.VideoResponseModel
 import com.example.kakao.ui.model.SearchResultItem
 import com.example.kakao.util.convertFormatTo
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -30,18 +30,6 @@ class RemoteSearchResultPagingSourceImpl @Inject constructor(
         try {
             val nextPage = params.key ?: 1
 
-            val searchResultForImageApi = mutableListOf<SearchResultItem>()
-            if (nextPage in 1..MAX_PAGE_COUNT_FOR_IMAGE_API) {
-                kakaoApi.fetchImages(
-                    keyWord = keyWord,
-                    sortType = SortType.RECENCY.value,
-                    page = nextPage,
-                    size = MAX_DOCUMENT_SIZE_FOR_IMAGE_API
-                ).also { imageApiResponse ->
-                    imageApiResponse.documents convertUiStatesTo searchResultForImageApi
-                }
-            }
-
             val searchResultForVideoApi = mutableListOf<SearchResultItem>()
             if (nextPage in 1..MAX_PAGE_COUNT_FOR_VIDEO_API) {
                 kakaoApi.fetchVideos(
@@ -50,11 +38,11 @@ class RemoteSearchResultPagingSourceImpl @Inject constructor(
                     page = nextPage,
                     size = MAX_DOCUMENT_SIZE_FOR_VIDEO_API
                 ).also { videoApiResponse ->
-                    videoApiResponse.documents convertUiStatesTo searchResultForImageApi
+                    videoApiResponse.documents convertUiStatesTo searchResultForVideoApi
                 }
             }
 
-            val resultUiState = (searchResultForImageApi + searchResultForVideoApi)
+            val resultUiState = searchResultForVideoApi
                 .distinctBy(SearchResultItem::thumbnailUrl)
                 .sortedWith(compareByDescending(SearchResultItem::date)
                     .thenByDescending(SearchResultItem::time))
@@ -77,7 +65,7 @@ class RemoteSearchResultPagingSourceImpl @Inject constructor(
 
     override fun getRefreshKey(state: PagingState<Int, SearchResultItem>) = null
 
-    private infix fun List<Documents>.convertUiStatesTo(uiStates: MutableList<SearchResultItem>) {
+    private infix fun List<VideoResponseModel.VideoDocument>.convertUiStatesTo(uiStates: MutableList<SearchResultItem>) {
         forEach { document ->
             uiStates.add(
                 SearchResultItem(
@@ -85,6 +73,9 @@ class RemoteSearchResultPagingSourceImpl @Inject constructor(
                     date = document.dateTime convertFormatTo context.resources.getString(
                         R.string.searchResultDateFormat),
                     time = document.dateTime convertFormatTo context.resources.getString(R.string.searchResultTimeFormat),
+                    title = document.title,
+                    playTime = document.playTime,
+                    author = document.author,
                     isFavorite = false
                 )
             )

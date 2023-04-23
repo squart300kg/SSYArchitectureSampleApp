@@ -2,7 +2,7 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="imageItem"
+            name="searchItem"
             type="com.example.kakao.ui.model.SearchResultItem" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout 
@@ -17,33 +17,44 @@
             android:layout_marginTop="@dimen/contentHorizontalPadding"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tvDate"
+            app:layout_constraintEnd_toStartOf="@id/tvTitle"
             app:layout_constraintStart_toStartOf="parent"
-            setImage="@{imageItem.thumbnailUrl}" />
+            setImage="@{searchItem.thumbnailUrl}" />
 
         <TextView
-            android:id="@+id/tvDate"
+            android:id="@+id/tvTitle"
             android:layout_width="0dp"
-            android:layout_height="@dimen/itemDateTimeHeight"
-            android:gravity="center_vertical"
-            android:padding="@dimen/searchPadding"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_marginHorizontal="@dimen/searchPadding"
+            android:textSize="@dimen/searchTitle"
+            android:ellipsize="end"
+            android:maxLines="2"
             app:layout_constraintEnd_toStartOf="@id/checkBox"
             app:layout_constraintTop_toTopOf="@id/ivThumbnail"
             app:layout_constraintStart_toEndOf="@id/ivThumbnail"
-            app:layout_constraintBottom_toTopOf="@id/tvTime"
-            setText="@{imageItem.date}" />
+            setText="@{searchItem.title}" />
 
         <TextView
-            android:id="@+id/tvTime"
+            android:id="@+id/tvAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            setText="@{searchItem.author}"/>
+
+        <TextView
+            android:id="@+id/tvPlayTime"
             android:layout_width="0dp"
-            android:layout_height="@dimen/itemDateTimeHeight"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:padding="@dimen/searchPadding"
-            app:layout_constraintTop_toBottomOf="@id/tvDate"
-            app:layout_constraintStart_toStartOf="@id/tvDate"
-            app:layout_constraintEnd_toEndOf="@id/tvDate"
+            app:layout_constraintStart_toStartOf="@id/tvTitle"
+            app:layout_constraintEnd_toEndOf="@id/tvTitle"
             app:layout_constraintBottom_toBottomOf="@id/ivThumbnail"
-            setText="@{imageItem.time}" />
+            app:drawableStartCompat="@drawable/baseline_play_circle_24"
+            android:drawablePadding="@dimen/searchPadding"
+            setPlayTime="@{searchItem.playTime}" />
 
         <CheckBox
             android:id="@+id/checkBox"
@@ -52,10 +63,10 @@
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintTop_toTopOf="@id/ivThumbnail"
             app:layout_constraintBottom_toBottomOf="@id/ivThumbnail"
-            app:layout_constraintStart_toEndOf="@id/tvDate"
+            app:layout_constraintStart_toEndOf="@id/tvTitle"
             app:layout_constraintEnd_toEndOf="parent"
             android:buttonTint="@color/black"
-            android:checked="@{imageItem.favorite}" />
+            android:checked="@{searchItem.favorite}" />
 
         <View
             android:id="@+id/v_devinder"

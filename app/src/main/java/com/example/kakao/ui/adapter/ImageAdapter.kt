@@ -40,7 +40,7 @@ class ImageAdapter(
         viewType: Int
     ): ImageViewHolder {
         return ImageViewHolder(
-            BR.imageItem,
+            BR.searchItem,
             parent,
             R.layout.item_image
         )

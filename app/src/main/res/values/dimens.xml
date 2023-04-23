@@ -5,4 +5,5 @@
     <dimen name="searchPadding">10dp</dimen>
     <dimen name="itemImageHeight">110dp</dimen>
     <dimen name="itemDateTimeHeight">50dp</dimen>
+    <dimen name="searchTitle">16sp</dimen>
 </resources>
