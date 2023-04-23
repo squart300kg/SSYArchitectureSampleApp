@@ -1,6 +1,7 @@
 package com.example.kakao.ui.ui.locker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -15,7 +16,11 @@ import com.example.kakao.ui.adapter.SearchResultAdapter
 import com.example.kakao.ui.adapter.ImageAdapterType
 import com.example.kakao.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class MyLockerFragment : BaseFragment<MyLockerFragmentBinding>(R.layout.my_locker_fragment) {

@@ -1,10 +1,12 @@
 package com.example.kakao.data.datasource
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.example.kakao.data.di.LOCAL_IMAGE_ITEMS
 import com.example.kakao.ui.model.SearchResultItem
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
@@ -15,17 +17,17 @@ class LocalSearchResultDataSourceImpl @Inject constructor(
     override fun updateSearchResult(searchResultItem: SearchResultItem) {
         val searchResultModels = fetchSearchResultModels().toMutableSet()
 
-        val updatedImages = if (searchResultItem in searchResultModels) {
-            searchResultModels.apply { remove(searchResultItem.copy()) }
+        val updatedImages = if (searchResultItem.copy(isFavorite = true) in searchResultModels) {
+            searchResultModels.apply { remove(searchResultItem.copy(isFavorite = true)) }
         } else {
-            searchResultModels.apply { add(searchResultItem.copy(isFavorite = true)) }
+            searchResultModels.apply { add(searchResultItem) }
         }
 
         sharedPreferences.edit().putString(LOCAL_IMAGE_ITEMS, Gson().toJson(updatedImages)).apply()
     }
 
     override val searchResultModels: Flow<List<SearchResultItem>>
-        = flowOf(fetchSearchResultModels())
+        = flow { emit(fetchSearchResultModels()) }
 
     private fun fetchSearchResultModels(): List<SearchResultItem> {
         val itemImageUiStatesJsonString = sharedPreferences.getString(LOCAL_IMAGE_ITEMS, null)

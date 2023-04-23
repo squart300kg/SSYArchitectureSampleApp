@@ -28,7 +28,7 @@ class SearchResultViewModel @Inject constructor(
         .cachedIn(viewModelScope)
         .stateIn(
             scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000L),
+            started = SharingStarted.WhileSubscribed(),
             initialValue = PagingData.empty()
         )
 
