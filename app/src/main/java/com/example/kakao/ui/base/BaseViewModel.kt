@@ -26,8 +26,7 @@ open class BaseViewModel @Inject constructor(): ViewModel() {
         return onStart { _isLoading.value = true }
             .flowOn(Dispatchers.IO)
             .map { Result.success(it) }
-            .catch {
-                emit(Result.failure(it)) }
+            .catch { emit(Result.failure(it)) }
             .onCompletion { _isLoading.value = false }
     }
 }
