@@ -29,6 +29,7 @@
             android:padding="@dimen/searchPadding"
             android:hint="@string/searchHint"
             android:maxLines="1"
+            android:textColor="@color/black"
             android:textColorHint="@color/grey"
             android:background="@drawable/border_search_et"
             android:imeOptions="actionDone"
