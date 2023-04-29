@@ -5,10 +5,10 @@
     <data>
         <variable
             name="lockerVm"
-            type="com.example.kakao.ui.ui.locker.MyLockerViewModel" />
+            type="com.example.architecture.ui.ui.locker.MyLockerViewModel" />
         <variable
             name="searchResultAdt"
-            type="com.example.kakao.ui.adapter.SearchResultAdapter" />
+            type="com.example.architecture.ui.adapter.SearchResultAdapter" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

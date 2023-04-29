@@ -6,10 +6,10 @@
     <data>
         <variable
             name="searchVm"
-            type="com.example.kakao.ui.ui.search.SearchResultViewModel" />
+            type="com.example.architecture.ui.ui.search.SearchResultViewModel" />
         <variable
             name="searchResultAdt"
-            type="com.example.kakao.ui.adapter.SearchResultAdapter" />
+            type="com.example.architecture.ui.adapter.SearchResultAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

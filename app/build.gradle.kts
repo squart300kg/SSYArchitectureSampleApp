@@ -15,7 +15,7 @@ android {
     buildToolsVersion("30.0.3")
 
     defaultConfig {
-        applicationId = "com.example.kakao"
+        applicationId = "com.example.architecture"
         minSdkVersion(24)
         targetSdkVersion(33)
         versionCode = 1

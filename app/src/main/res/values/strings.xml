@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KakaoBank</string>
+    <string name="app_name">ArchitectureSampleApp</string>
 
     <!--  HomebottomNavBar  -->
     <string name="searchResult">검색 결과</string>
