@@ -9,6 +9,7 @@ import com.example.kakao.databinding.SearchResultFragmentBinding
 import com.example.kakao.ui.adapter.SearchResultAdapter
 import com.example.kakao.ui.adapter.SearchResultAdapterType
 import com.example.kakao.ui.base.BaseFragment
+import com.example.kakao.ui.ext.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +27,7 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
 
         binding {
             searchVm = viewModel
-            imageAdt = searchResultAdapter
+            searchResultAdt = searchResultAdapter
 
             initSearchClickListener()
 
@@ -40,11 +41,13 @@ class SearchResultFragment : BaseFragment<SearchResultFragmentBinding>(R.layout.
     private fun SearchResultFragmentBinding.initSearchClickListener() {
         btnSearch.setOnClickListener {
             viewModel.search("${etSearch.text}")
+            requireActivity().hideKeyboard()
         }
 
         binding.etSearch.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 viewModel.search("${etSearch.text}")
+                requireActivity().hideKeyboard()
                 return@setOnKeyListener true
             }
             false

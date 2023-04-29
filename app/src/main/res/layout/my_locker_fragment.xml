@@ -26,7 +26,19 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_search_result"
-            submitImageData="@{lockerVm.uiState}"/>
+            submitListData="@{lockerVm.uiState}"/>
+
+        <TextView
+            android:id="@+id/tvNoContents"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/noSaveContents"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            setListDataVisibility="@{lockerVm.uiState}"
+            isListDataVisibilityReverse="@{true}"
+            />
 
         <ProgressBar
             android:id="@+id/loadingBar"

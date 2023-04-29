@@ -8,13 +8,30 @@ import com.example.kakao.ui.model.SearchResultItem
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 
+@BindingAdapter("submitPagingData")
+fun RecyclerView.submitPagingData(uiStateFlow: StateFlow<PagingData<SearchResultItem>>) {
+    submitData(
+        data = uiStateFlow,
+        pagingDataTransition = { it }
+    )
+}
 
-@BindingAdapter("submitImageData")
-fun RecyclerView.submitImageData(uiStateFlow: StateFlow<PagingData<SearchResultItem>>) {
+@BindingAdapter("submitListData")
+fun RecyclerView.submitListData(uiStateFlow: StateFlow<List<SearchResultItem>>) {
+    submitData(
+        data = uiStateFlow,
+        pagingDataTransition = { PagingData.from(it) }
+    )
+}
+
+fun <T> RecyclerView.submitData(
+    data: StateFlow<T>,
+    pagingDataTransition: (T) -> PagingData<SearchResultItem>
+) {
     repeatOnResumeLifecycle {
-        uiStateFlow.collectLatest {
-            val adapter = adapter as SearchResultAdapter
-            adapter.submitData(it)
+        data.collectLatest {
+            (adapter as SearchResultAdapter).submitData(pagingDataTransition(it))
         }
     }
 }
+

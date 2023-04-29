@@ -8,7 +8,7 @@
             name="searchVm"
             type="com.example.kakao.ui.ui.search.SearchResultViewModel" />
         <variable
-            name="imageAdt"
+            name="searchResultAdt"
             type="com.example.kakao.ui.adapter.SearchResultAdapter" />
     </data>
 
@@ -18,7 +18,7 @@
         android:paddingStart="@dimen/contentHorizontalPadding"
         android:paddingEnd="@dimen/contentHorizontalPadding"
         android:paddingTop="@dimen/contentHorizontalPadding"
-        errorMessageFromAdt="@{imageAdt.loadStateFlow}"
+        errorMessageFromAdt="@{searchResultAdt.loadStateFlow}"
         errorMessageFromVm="@{searchVm.errorMessage}"
         tools:context=".ui.ui.search.SearchResultFragment">
 
@@ -60,7 +60,18 @@
             app:layout_constraintTop_toBottomOf="@id/etSearch"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_search_result"
-            submitImageData="@{searchVm.uiState}" />
+            submitPagingData="@{searchVm.uiState}" />
+
+        <TextView
+            android:id="@+id/tvNoContents"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/etSearch"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/noContents"
+            setPagingDataVisibility="@{searchResultAdt}"
+            isPagingDataVisibilityReverse="@{true}"/>
 
         <ProgressBar
             android:id="@+id/loadingBar"
@@ -71,8 +82,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            setProgressBarState="@{imageAdt.loadStateFlow}"/>
-
+            setProgressBarState="@{searchResultAdt.loadStateFlow}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

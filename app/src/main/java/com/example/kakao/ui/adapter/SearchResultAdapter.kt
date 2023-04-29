@@ -1,5 +1,6 @@
 package com.example.kakao.ui.adapter
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
@@ -14,6 +15,9 @@ enum class SearchResultAdapterType {
     SEARCH_RESULT,
     MY_LOCKER
 }
+
+fun Int.isItemZero() = this == 0
+fun Int.isItemNonZero() = this != 0
 
 class SearchResultAdapter(
     private val searchResultAdapterType: SearchResultAdapterType,
@@ -70,6 +74,7 @@ class SearchResultAdapter(
         }
 
         fun initClickListener() {
+            Log.i("pagingInit", absoluteAdapterPosition.toString())
             binding {
                 checkBox.setOnClickListener {
 

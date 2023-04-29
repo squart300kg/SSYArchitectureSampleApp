@@ -14,10 +14,9 @@ class MyLockerViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val uiState = searchResultRepository.localSearchResultModels
-        .map { PagingData.from(it) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(),
-            initialValue = PagingData.empty()
+            initialValue = emptyList()
         )
 }
