@@ -17,14 +17,14 @@ class GetHomeItemsWithCheckedUseCase @Inject constructor(
             searchResultRepository.fetchRemoteSearchResultModels(keyWord),
             searchResultRepository.localSearchResultModels
         ) { remoteSearchResultModels, localSearchResultModels ->
-            remoteSearchResultModels.map { remoteImage ->
+            remoteSearchResultModels.map { remoteSearchResult ->
                 val duplicateSearchResultModel =
-                    localSearchResultModels.find { localImage -> localImage.thumbnailUrl == remoteImage.thumbnailUrl }
+                    localSearchResultModels.find { localSearchResult -> localSearchResult.thumbnailUrl == remoteSearchResult.thumbnailUrl }
 
                 if (duplicateSearchResultModel != null) {
-                    remoteImage.copy(isFavorite = true)
+                    remoteSearchResult.copy(isFavorite = true)
                 } else {
-                    remoteImage
+                    remoteSearchResult
                 }
             }
         }

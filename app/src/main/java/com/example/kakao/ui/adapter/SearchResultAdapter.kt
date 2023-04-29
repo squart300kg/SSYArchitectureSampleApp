@@ -6,19 +6,19 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.example.kakao.BR
 import com.example.kakao.R
-import com.example.kakao.databinding.ItemImageBinding
+import com.example.kakao.databinding.ItemSearchResultBinding
 import com.example.kakao.ui.base.BaseViewHolder
 import com.example.kakao.ui.model.SearchResultItem
 
-enum class ImageAdapterType {
+enum class SearchResultAdapterType {
     SEARCH_RESULT,
     MY_LOCKER
 }
 
 class SearchResultAdapter(
-    private val imageAdapterType: ImageAdapterType,
+    private val searchResultAdapterType: SearchResultAdapterType,
     private val onUpdateSearchResultModelToLocal: (SearchResultItem) -> Unit = {},
-) : PagingDataAdapter<SearchResultItem, SearchResultAdapter.ImageViewHolder>(
+) : PagingDataAdapter<SearchResultItem, SearchResultAdapter.SearchResultViewHolder>(
     ImageComparator
 ) {
 
@@ -37,31 +37,32 @@ class SearchResultAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ImageViewHolder {
-        return ImageViewHolder(
+    ): SearchResultViewHolder {
+        return SearchResultViewHolder(
             BR.searchItem,
             parent,
-            R.layout.item_image
+            R.layout.item_search_result
         )
     }
 
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+
+    override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
         holder.bindItem(getItem(position) ?: SearchResultItem())
         holder.initClickListener()
     }
 
-    inner class ImageViewHolder(
+    inner class SearchResultViewHolder(
         itemId: Int,
         parent: ViewGroup,
         layoutRes: Int
-    ) : BaseViewHolder<SearchResultItem, ItemImageBinding>(
+    ) : BaseViewHolder<SearchResultItem, ItemSearchResultBinding>(
         itemId,
         parent,
         layoutRes
     ) {
 
         init {
-            if (imageAdapterType == ImageAdapterType.MY_LOCKER) {
+            if (searchResultAdapterType == SearchResultAdapterType.MY_LOCKER) {
                 binding {
                     checkBox.isVisible = false
                 }

@@ -3,9 +3,8 @@ package com.example.kakao.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import com.example.kakao.data.datasource.END_PAGING_COUNT
 import com.example.kakao.data.datasource.LocalSearchResultDataSource
+import com.example.kakao.data.datasource.MAX_PAGE_COUNT_FOR_VIDEO_API
 import com.example.kakao.data.datasource.RemoteSearchResultPagingSource
 import com.example.kakao.ui.model.SearchResultItem
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +17,7 @@ class SearchResultRepositoryImpl @Inject constructor(
 
     override fun fetchRemoteSearchResultModels(keyWord: String): Flow<PagingData<SearchResultItem>>
         = Pager(PagingConfig(
-            pageSize = END_PAGING_COUNT,
+            pageSize = MAX_PAGE_COUNT_FOR_VIDEO_API,
             enablePlaceholders = false
         )) {
             remoteImagePagingSource.apply { this.keyWord = keyWord }
@@ -29,6 +28,4 @@ class SearchResultRepositoryImpl @Inject constructor(
 
     override fun updateSearchResultToLocal(imageUiState: SearchResultItem)
         = localSearchResultDataSource.updateSearchResult(imageUiState)
-
-
 }

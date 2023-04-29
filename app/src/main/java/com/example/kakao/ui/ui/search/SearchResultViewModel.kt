@@ -21,7 +21,7 @@ class SearchResultViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ): BaseViewModel() {
 
-    private val _searchKeyWord = savedStateHandle.getStateFlow(SEARCH_KEY_WORD_KEY, "jbj김상균")
+    private val _searchKeyWord = savedStateHandle.getStateFlow(SEARCH_KEY_WORD_KEY, "")
     val uiState = _searchKeyWord
         .filter { it.isNotEmpty() }
         .flatMapLatest { getSearchResultItemsWithChecked(it) }

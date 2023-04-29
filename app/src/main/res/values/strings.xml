@@ -9,6 +9,10 @@
     <!--  SearchResultUi  -->
     <string name="search">검색</string>
     <string name="searchHint">검색어를 입력해 주세요</string>
+    <string name="noContents">검색 결과 리스트가 없습니다.</string>
+
+    <!--  MyLockerUi  -->
+    <string name="noSaveContents">저장된 동영상 콘텐츠가 없습니다.</string>
 
     <!--  dateFormat  -->
     <string name="searchResultDateFormat">yyyy년 MM월 dd일</string>

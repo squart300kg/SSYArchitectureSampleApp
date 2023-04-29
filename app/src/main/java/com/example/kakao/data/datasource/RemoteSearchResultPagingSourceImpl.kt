@@ -12,13 +12,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
-import kotlin.math.max
 
-const val MAX_PAGE_COUNT_FOR_IMAGE_API = 50
 const val MAX_PAGE_COUNT_FOR_VIDEO_API = 15
-val END_PAGING_COUNT = max(MAX_PAGE_COUNT_FOR_IMAGE_API, MAX_PAGE_COUNT_FOR_VIDEO_API)
-
-const val MAX_DOCUMENT_SIZE_FOR_IMAGE_API = 80
 const val MAX_DOCUMENT_SIZE_FOR_VIDEO_API = 30
 
 class RemoteSearchResultPagingSourceImpl @Inject constructor(
@@ -50,7 +45,7 @@ class RemoteSearchResultPagingSourceImpl @Inject constructor(
             return LoadResult.Page(
                 data = resultUiState,
                 prevKey = null,
-                nextKey = if (nextPage > END_PAGING_COUNT) null
+                nextKey = if (nextPage > MAX_PAGE_COUNT_FOR_VIDEO_API) null
                           else nextPage + 1
             )
 
@@ -81,5 +76,4 @@ class RemoteSearchResultPagingSourceImpl @Inject constructor(
             )
         }
     }
-
 }

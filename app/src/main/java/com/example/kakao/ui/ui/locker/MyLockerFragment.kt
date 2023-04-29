@@ -1,33 +1,21 @@
 package com.example.kakao.ui.ui.locker
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.paging.PagingData
 import com.example.kakao.R
 import com.example.kakao.databinding.MyLockerFragmentBinding
 import com.example.kakao.ui.adapter.SearchResultAdapter
-import com.example.kakao.ui.adapter.ImageAdapterType
+import com.example.kakao.ui.adapter.SearchResultAdapterType
 import com.example.kakao.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class MyLockerFragment : BaseFragment<MyLockerFragmentBinding>(R.layout.my_locker_fragment) {
 
     private val viewModel: MyLockerViewModel by viewModels()
     private val searchResultAdapter by lazy { SearchResultAdapter(
-        imageAdapterType = ImageAdapterType.MY_LOCKER
+        searchResultAdapterType = SearchResultAdapterType.MY_LOCKER
         )
     }
 

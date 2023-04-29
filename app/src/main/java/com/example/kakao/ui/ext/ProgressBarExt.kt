@@ -6,12 +6,11 @@ import androidx.databinding.BindingAdapter
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@BindingAdapter("loadingStateFromAdt")
-fun ProgressBar.loadProgressBar(
+@BindingAdapter("setProgressBarState")
+fun ProgressBar.setProgressBarState(
     loadStateFromAdt: Flow<CombinedLoadStates>,
 ) {
     repeatOnResumeLifecycle {

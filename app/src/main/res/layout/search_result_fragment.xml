@@ -55,11 +55,11 @@
             android:id="@+id/rvSearchResult"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_marginTop="@dimen/contentHorizontalPadding"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@id/etSearch"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/item_image"
+            tools:listitem="@layout/item_search_result"
             submitImageData="@{searchVm.uiState}" />
 
         <ProgressBar
@@ -71,7 +71,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            loadingStateFromAdt="@{imageAdt.loadStateFlow}"/>
+            setProgressBarState="@{imageAdt.loadStateFlow}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,7 +25,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/item_image"
+            tools:listitem="@layout/item_search_result"
             submitImageData="@{lockerVm.uiState}"/>
 
         <ProgressBar
@@ -37,7 +37,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            loadingStateFromAdt="@{searchResultAdt.loadStateFlow}"/>
+            setProgressBarState="@{searchResultAdt.loadStateFlow}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
