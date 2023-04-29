@@ -16,11 +16,11 @@ fun TextView.setPlayTime(playTime: Int?) {
         val remainingSeconds = it % 60
 
         if (hours == 0) {
+            if (minutes == 0) {
+                this.text = String.format("%02d초", remainingSeconds)
+                return
+            }
             this.text = String.format("%02d분 %02d초", minutes, remainingSeconds)
-            return
-        }
-        if (minutes == 0) {
-            this.text = String.format("%02d초", remainingSeconds)
             return
         }
         this.text = String.format("%02d시간 %02d분 %02d초", hours, minutes, remainingSeconds)
